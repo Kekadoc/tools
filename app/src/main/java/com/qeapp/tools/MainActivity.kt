@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         val q = com.qeapp.tools.QeObjects.requireNonNull(1)
 
         val a2 = QeValue.average(1, 2, 3, 4)
-        val a2 = QeValue.average(1, 2, 3, 4)
-        val a2 = QeValue.average(1, 2, 3, 4)
+        val a3 = QeValue.average(1, 2, 3, 4)
+        val a4 = QeValue.average(1, 2, 3, 4)
     }
 }
