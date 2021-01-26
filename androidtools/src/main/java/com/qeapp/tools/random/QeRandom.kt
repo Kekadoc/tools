@@ -1,7 +1,9 @@
 package com.qeapp.tools.random
 
+import com.qeapp.tools.QeObjects
 import com.qeapp.tools.exeption.Wtf
 import com.qeapp.tools.storage.array.QeArrays
+import com.qeapp.tools.value.QeValue
 import java.security.SecureRandom
 import java.util.*
 import kotlin.collections.ArrayList
@@ -254,7 +256,7 @@ object QeRandom {
     }
 
     @JvmStatic fun getRandomArray(start: Int, end: Int, count: Int, different: Boolean): IntArray {
-        if (different && QeUtil.getRange(start, end) < count) throw Wtf()
+        if (different && QeValue.getRange(start, end) < count) throw Wtf()
         val rnd = IntArray(count)
         for (i in 0 until count) {
             var r: Int

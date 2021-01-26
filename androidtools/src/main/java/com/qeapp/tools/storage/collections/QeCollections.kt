@@ -1,5 +1,6 @@
 package com.qeapp.tools.storage.collections
 
+import com.qeapp.tools.QeObjects
 import com.qeapp.tools.text.QeString
 import java.util.*
 
@@ -9,7 +10,7 @@ object QeCollections {
     fun <T> collectionToString(c: Collection<T>?): String? {
         if (c == null) return "null"
         val builder = StringBuilder()
-                .append(QeUtil.toSimpleString(c)).append(" size: ").append(c.size).append('\n')
+                .append(QeObjects.toSimpleString(c)).append(" size: ").append(c.size).append('\n')
         for (obj in c) {
             builder.append(obj.toString())
             builder.append('\n')
@@ -28,13 +29,13 @@ object QeCollections {
     @JvmStatic
     fun <T> toSimpleString(collection: Collection<T>?): String {
         if (collection == null) return QeString.NULL
-        val builder = StringBuilder(QeUtil.toSimpleString(collection))
+        val builder = StringBuilder(QeObjects.toSimpleString(collection))
         builder.append("=").append("(").append(collection.size).append(")")
         builder.append("={")
         val iterator = collection.iterator()
         while (iterator.hasNext()) {
             val t = iterator.next()
-            builder.append(QeUtil.toSimpleString(t))
+            builder.append(QeObjects.toSimpleString(t))
             if (iterator.hasNext()) builder.append(", ")
         }
         builder.append("}")

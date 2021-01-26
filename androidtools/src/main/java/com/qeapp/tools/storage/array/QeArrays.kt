@@ -1,5 +1,6 @@
 package com.qeapp.tools.storage.array
 
+import com.qeapp.tools.QeObjects
 import java.util.*
 import kotlin.random.Random
 
@@ -9,7 +10,7 @@ object QeArrays {
     fun <T> arrayToString(array: Array<T>?): String? {
         if (array == null) return "null"
         val builder = StringBuilder()
-                .append(QeUtil.toSimpleString(array)).append(" size: ").append(array.size).append('\n')
+                .append(QeObjects.toSimpleString(array)).append(" size: ").append(array.size).append('\n')
         for (obj in array) {
             builder.append(obj.toString())
             builder.append('\n')

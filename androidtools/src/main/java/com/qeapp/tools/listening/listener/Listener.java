@@ -1,9 +1,9 @@
 package com.qeapp.tools.listening.listener;
 
+import com.qeapp.tools.listening.subscriber.Disposable;
 import com.qeapp.tools.listening.subscriber.Subscriber;
+import com.qeapp.tools.reflection.QeReflection;
 import com.qeapp.tools.storage.array.QeArrays;
-import com.qeapp.util.listening.subscriber.Disposable;
-import com.qeapp.util.reflection.QeReflection;
 
 import java.util.Iterator;
 

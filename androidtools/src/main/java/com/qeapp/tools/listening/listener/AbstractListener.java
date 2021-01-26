@@ -1,7 +1,8 @@
 package com.qeapp.tools.listening.listener;
 
+import com.qeapp.tools.QeObjects;
+import com.qeapp.tools.listening.Subscription;
 import com.qeapp.tools.listening.subscriber.AbstractSubscriber;
-import com.qeapp.util.listening.Subscription;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,7 @@ public abstract class AbstractListener<S extends AbstractSubscriber>
 
     @Override
     public String toString() {
-        return QeUtil.toSimpleString(this) + " subs count: " + subscribers.size();
+        return QeObjects.toSimpleString(this) + " subs count: " + subscribers.size();
     }
 
 }
