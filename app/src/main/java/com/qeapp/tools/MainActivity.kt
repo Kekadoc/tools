@@ -8,7 +8,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val q = QeObjects.requireNonNull(1)
+        val q = com.qeapp.tools.QeObjects.requireNonNull(1)
 
     }
 }

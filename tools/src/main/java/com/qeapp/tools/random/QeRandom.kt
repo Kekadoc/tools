@@ -1,6 +1,5 @@
 package com.qeapp.tools.random
 
-import com.qeapp.tools.QeObjects
 import com.qeapp.tools.exeption.Wtf
 import com.qeapp.tools.storage.array.QeArrays
 import com.qeapp.tools.value.QeValue
