@@ -1,4 +1,4 @@
-package com.qeapp.tools
+package com.qeapp.tools.timer
 
 import java.util.*
 
@@ -8,12 +8,25 @@ import java.util.*
  */
 abstract class TimerObserver<Observer> {
 
+    companion object {
+        @JvmStatic
+        fun <T> create(delay: Long, period: Long, data: T, update: (data: T) -> Unit): TimerObserver<T> {
+            return object : TimerObserver<T>(delay, period) {
+                override fun update(observer: T) {
+                    update.invoke(data)
+                }
+            }
+        }
+    }
+
     private val delay: Long
     private val period: Long
     private val timer = Timer()
     private val task: TimerTask = object : TimerTask() {
         override fun run() {
-            if (observer != null) update(observer)
+            observer?.let {
+                update(it)
+            }
         }
     }
 
@@ -25,7 +38,7 @@ abstract class TimerObserver<Observer> {
     }
     constructor(period: Long) : this(0, period)
 
-    protected abstract fun update(observer: Observer?)
+    protected abstract fun update(observer: Observer)
 
     fun start() {
         timer.schedule(task, delay, period)

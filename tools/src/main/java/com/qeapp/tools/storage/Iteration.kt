@@ -20,6 +20,7 @@ object Iteration {
     /** Парная итерация по двум листам.
      * @param iteration будет вызываться до тех пор пока у элемента одно из списка есть порядковый парный элимент из второго.
      */
+    @JvmStatic
     fun <First, Second> twinsIteration(first: List<First?>, second: List<Second?>, iterator: (element_0: First?, element_1: Second?) -> Unit) {
         val count = max(first.size, second.size)
         for (i in 0 until count) {

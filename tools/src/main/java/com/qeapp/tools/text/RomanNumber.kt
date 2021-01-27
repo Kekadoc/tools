@@ -1,4 +1,4 @@
-package com.qeapp.tools
+package com.qeapp.tools.text
 
 import com.qeapp.tools.character.QeChars
 import java.util.*

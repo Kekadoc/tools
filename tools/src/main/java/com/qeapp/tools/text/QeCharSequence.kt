@@ -2,7 +2,8 @@ package com.qeapp.tools.text
 
 object QeCharSequence {
 
-    fun createSequence(c: Char, count: Int): CharSequence? {
+    @JvmStatic
+    fun createSequence(c: Char, count: Int): CharSequence {
         val builder = StringBuilder()
         for (i in 0 until count) {
             builder.append(c)
@@ -10,7 +11,8 @@ object QeCharSequence {
         return builder.toString()
     }
 
-    fun createSequence(str: String?, count: Int): CharSequence? {
+    @JvmStatic
+    fun createSequence(str: String?, count: Int): CharSequence {
         val builder = StringBuilder()
         for (i in 0 until count) {
             builder.append(str)
@@ -18,6 +20,7 @@ object QeCharSequence {
         return builder.toString()
     }
 
+    @JvmStatic
     fun contains(first: CharSequence, find: CharSequence, ignoreCase: Boolean): Boolean {
         return first.contains(find, ignoreCase)
     }

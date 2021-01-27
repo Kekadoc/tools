@@ -18,6 +18,10 @@ abstract class ObservableData<Data> {
     interface Observer<Data> {
         fun onChange(oldData: Data?, newData: Data?)
     }
+    interface Observing<Data> {
+        fun remove()
+        fun getData(): Data?
+    }
 
     private var observers: MutableCollection<Observer<Data>>? = null
     var data: Data? = null
@@ -29,14 +33,20 @@ abstract class ObservableData<Data> {
             if (observers != null) for (observer in observers!!) observer.onChange(old, data)
         }
 
-    fun observe(observer: Observer<Data>) {
+    fun observe(observer: Observer<Data>): Observing<Data> {
         if (observers == null) observers = LinkedHashSet()
         observers!!.add(observer)
-    }
-    fun removeObserve(observer: Observer<Data>?): Boolean {
-        return if (observers == null) false else observers!!.remove(observer)
+        return object : ObservingImpl() {
+            override fun remove() {
+                observers?.remove(observer)
+            }
+        }
     }
 
     protected open fun onChange(oldTarget: Data?, newTarget: Data?) {}
+
+    private abstract inner class ObservingImpl : Observing<Data> {
+        override fun getData(): Data? = data
+    }
 
 }

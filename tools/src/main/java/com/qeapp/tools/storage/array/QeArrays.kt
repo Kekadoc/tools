@@ -7,7 +7,8 @@ import kotlin.random.Random
 object QeArrays {
     private const val TAG = "QeArrays-TAG"
 
-    fun <T> arrayToString(array: Array<T>?): String? {
+    @JvmStatic
+    fun <T> arrayToString(array: Array<T>?): String {
         if (array == null) return "null"
         val builder = StringBuilder()
                 .append(QeObjects.toSimpleString(array)).append(" size: ").append(array.size).append('\n')

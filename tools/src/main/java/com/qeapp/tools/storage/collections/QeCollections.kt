@@ -7,7 +7,7 @@ import java.util.*
 object QeCollections {
     private const val TAG = "QeCollections-TAG"
 
-    fun <T> collectionToString(c: Collection<T>?): String? {
+    fun <T> collectionToString(c: Collection<T>?): String {
         if (c == null) return "null"
         val builder = StringBuilder()
                 .append(QeObjects.toSimpleString(c)).append(" size: ").append(c.size).append('\n')

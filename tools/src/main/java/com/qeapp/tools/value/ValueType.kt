@@ -1,4 +1,4 @@
-package com.qeapp.tools
+package com.qeapp.tools.value
 
 /**
  * Enum class для описания некторого значения

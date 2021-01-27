@@ -2,15 +2,15 @@ package com.qeapp.tools.process;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface GuidedProcess extends Process {
+public interface OperatedProcess extends Process {
 
     interface Observer extends Process.Observer {
-        default void onProcessRunned(GuidedProcess process, double runnedProgress) {}
-        default void onProcessStopped(GuidedProcess process, double stoppedProgress) {}
+        default void onProcessRunned(OperatedProcess process, double runnedProgress) {}
+        default void onProcessStopped(OperatedProcess process, double stoppedProgress) {}
     }
     interface Observable extends FailableProcess {
-        void addProcessObserver(@NotNull GuidedProcess.Observer observer);
-        void removeProcessObserver(GuidedProcess.Observer observer);
+        void addProcessObserver(@NotNull OperatedProcess.Observer observer);
+        void removeProcessObserver(OperatedProcess.Observer observer);
     }
 
     /**

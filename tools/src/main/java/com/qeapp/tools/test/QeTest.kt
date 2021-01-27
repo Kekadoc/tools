@@ -2,6 +2,7 @@ package com.qeapp.tools.test
 
 object QeTest {
 
+    @JvmStatic
     fun testTerminal(name: String, action: () -> Unit) {
         val t = System.currentTimeMillis()
         val tt = System.nanoTime()
@@ -9,6 +10,7 @@ object QeTest {
         println(name + ": " + "ms: " + (System.currentTimeMillis() - t) + " " + "ns: " + (System.nanoTime() - tt))
     }
 
+    @JvmStatic
     fun <T> testTerminal(name: String, action: () -> T): T {
         val t = System.currentTimeMillis()
         val tt = System.nanoTime()
