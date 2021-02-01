@@ -16,6 +16,12 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'com.github.dcendents:android-maven-plugin:1.0'
 }
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = '1.8'
+        freeCompilerArgs += '-Xjvm-default=enable'
+    }
+}
 /*
 compileKotlin {
     kotlinOptions {
