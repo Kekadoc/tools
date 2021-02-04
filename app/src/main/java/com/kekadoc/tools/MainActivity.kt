@@ -3,6 +3,8 @@ package com.kekadoc.tools
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.kekadoc.tools.builder.AbstractBuilder
+import com.kekadoc.tools.data.DataAggregate
 import com.kekadoc.tools.value.ValueUtils
 
 class MainActivity : AppCompatActivity() {
@@ -37,6 +39,27 @@ class MainActivity : AppCompatActivity() {
         }
 
         ValueUtils.addValueInRange(from, to, current, 20, events)
+
+        val dataAggregate = object : DataAggregate() {
+            override fun createData(index: Int) {
+                Log.e(TAG, "createData: $index")
+            }
+            override fun removeData(index: Int) {
+                Log.e(TAG, "removeData: $index")
+            }
+        }
+        dataAggregate.notifyData(5, 3)
+    }
+
+
+    class Builder : AbstractBuilder<String?, Int?>() {
+
+        override fun onCreateResult(param: Int?): String? {
+            return param?.toString()
+        }
+        override fun onCreateParams(): Int {
+            return 10;
+        }
 
     }
 

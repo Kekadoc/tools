@@ -8,13 +8,13 @@ package com.kekadoc.tools.builder
  */
 abstract class AbstractBuilder<Result, Params> {
 
-    private var observer: ((result: Result?) -> Unit)? = null
-    private val params: Params? by lazy { onCreateParams() }
+    private var observer: ((result: Result) -> Unit)? = null
+    private val params: Params by lazy { onCreateParams() }
 
     /**
      * Run building
      */
-    fun build(): Result? {
+    open fun build(): Result {
         val result = onCreateResult(params)
         applyResult(result)
         observer?.invoke(result)
@@ -25,14 +25,14 @@ abstract class AbstractBuilder<Result, Params> {
      * OnBuild observing
      * Call after [onCreateResult]
      */
-    fun onBuild(observer: ((result: Result?) -> Unit)?) {
+    fun onBuild(observer: ((result: Result) -> Unit)?) {
         this.observer = observer
     }
 
     /**
      * Call after [onCreateResult]
      */
-    protected open fun applyResult(result: Result?) {}
+    protected open fun applyResult(result: Result) {}
 
     /**
      * Building [Result]
@@ -40,10 +40,10 @@ abstract class AbstractBuilder<Result, Params> {
      * @param param - [Params]
      * @return [Result]
      * */
-    protected abstract fun onCreateResult(param: Params?): Result?
+    protected abstract fun onCreateResult(param: Params): Result
     /**
      * Create [Params] for building [Result]
      */
-    protected abstract fun onCreateParams(): Params?
+    protected abstract fun onCreateParams(): Params
 
 }
