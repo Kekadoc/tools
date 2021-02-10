@@ -1,6 +1,10 @@
 package com.kekadoc.tools.data
 
-abstract class DataAggregate {
+abstract class DataAggregate() {
+
+    constructor(kept: Int, desire: Int): this() {
+        notifyData(kept, desire)
+    }
 
     fun notifyData(kept: Int, desire: Int) {
         when {

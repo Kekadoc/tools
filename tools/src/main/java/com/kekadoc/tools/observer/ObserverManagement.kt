@@ -16,6 +16,7 @@ abstract class ObserverManagement<Observer> {
 
     open fun addObserver(observer: Observer): Observing {
         if (observers == null) observers = initialize()
+        if (observers!!.contains(observer)) return Observing.EMPTY
         observers!!.add(observer)
         return onCreateObserving(observer)
     }
@@ -25,6 +26,10 @@ abstract class ObserverManagement<Observer> {
 
     fun size(): Int {
         return if (observers == null) 0 else observers!!.size
+    }
+
+    protected fun foreach(iterator: (it: Observer) -> Unit) {
+        getIterationObservers().forEach { iterator.invoke(it) }
     }
 
     protected fun getObservers(): Collection<Observer>? {
@@ -48,6 +53,10 @@ abstract class ObserverManagement<Observer> {
     }
     protected open fun initialize(): MutableCollection<Observer> {
         return defaultCollection()
+    }
+
+    abstract class Behavior<Observer> : ObserverManagement<Observer>() {
+        protected abstract fun callLastEvent(observer: Observer)
     }
 
 }

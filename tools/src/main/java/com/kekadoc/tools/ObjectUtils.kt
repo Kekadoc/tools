@@ -30,7 +30,7 @@ object ObjectUtils {
 
     @JvmStatic
     @Suppress("UNCHECKED_CAST")
-    fun <T> tryCast(obj: Any, exception: String?): T? {
+    fun <T> tryCast(obj: Any?, exception: String?): T? {
         return try {
             obj as T
         } catch (e: ClassCastException) {
