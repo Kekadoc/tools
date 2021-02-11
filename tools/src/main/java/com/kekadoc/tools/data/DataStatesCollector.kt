@@ -1,6 +1,6 @@
 package com.kekadoc.tools.data
 
-import com.kekadoc.tools.ObjectUtils
+import kotlin.reflect.KClass
 
 abstract class DataStatesCollector<Data, State> {
 
@@ -22,9 +22,11 @@ abstract class DataStatesCollector<Data, State> {
         return this.data[data]
     }
 
-    protected fun <T : StateHolder> foreachState(clazz: Class<T>, iterator: (state: T) -> Unit) {
+    fun <T : StateHolder> foreachState(clazz: KClass<T>, iterator: (state: T) -> Unit) {
         data.forEach {
-            iterator.invoke(ObjectUtils.tryCast<T>(it.value)!!)
+            val state = it.value
+            if (clazz.isInstance(state))
+                iterator.invoke(state as T)
         }
     }
 

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import com.kekadoc.tools.builder.AbstractBuilder
 import com.kekadoc.tools.data.DataAggregate
+import com.kekadoc.tools.data.DataStatesCollector
 import com.kekadoc.tools.value.ValueUtils
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +17,23 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val states = States()
+        val data_0 = "0";
+
+        states.addData(data_0)
+        states.addData("1")
+        states.addData("2")
+
+        Log.e(TAG, "onCreate: ${States.StringState::class.isInstance(states.getDataState(data_0))}")
+        Log.e(TAG, "onCreate: ", )
+
+        states.foreachState(States.StringState::class) {
+            Log.e(TAG, "onCreate: $it")
+        }
+
+        val str: String = "str"
+        Log.e(TAG, "onCreate: ${Int::class.isInstance(str)}")
 
         val q = ObjectUtils.requireNonNull(1)
 
@@ -51,6 +69,29 @@ class MainActivity : AppCompatActivity() {
         dataAggregate.notifyData(5, 3)
     }
 
+    private class States : DataStatesCollector<String, Int>() {
+
+        override fun onDataAdded(data: String) {
+            super.onDataAdded(data)
+            foreachState(StringState::class) {
+                Log.e(TAG, "onDataAdded: $it")
+            }
+        }
+
+        override fun getDefaultState(): Int = 0
+        override fun getNullState(): Int = -1
+
+        override fun getDataState(data: String): StringState? {
+            return super.getDataState(data) as StringState?
+        }
+
+        override fun onCreateStateHolder(data: String): StateHolder {
+            return StringState(data)
+        }
+
+        inner class StringState(data: String) : StateHolder(data)
+
+    }
 
     class Builder : AbstractBuilder<String?, Int?>() {
 
