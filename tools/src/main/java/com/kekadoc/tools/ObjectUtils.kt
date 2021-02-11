@@ -2,6 +2,15 @@ package com.kekadoc.tools
 
 import java.util.*
 
+inline fun Boolean.ifTrue(onTrue: () -> Unit): Boolean {
+    if (this) onTrue.invoke()
+    return this
+}
+inline fun Boolean.ifFalse(onFalse: () -> Unit): Boolean {
+    if (!this) onFalse.invoke()
+    return this
+}
+
 object ObjectUtils {
 
     @JvmStatic
