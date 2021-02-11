@@ -18,23 +18,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val states = States()
-        val data_0 = "0";
-
-        states.addData(data_0)
-        states.addData("1")
-        states.addData("2")
-
-        Log.e(TAG, "onCreate: ${States.StringState::class.isInstance(states.getDataState(data_0))}")
-        Log.e(TAG, "onCreate: ", )
-
-        states.foreachState(States.StringState::class) {
-            Log.e(TAG, "onCreate: $it")
-        }
-
-        val str: String = "str"
-        Log.e(TAG, "onCreate: ${Int::class.isInstance(str)}")
-
         val q = ObjectUtils.requireNonNull(1)
 
         val from = 0L
@@ -67,41 +50,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         dataAggregate.notifyData(5, 3)
-    }
-
-    private class States : DataStatesCollector<String, Int>() {
-
-        override fun onDataAdded(data: String) {
-            super.onDataAdded(data)
-            foreachState(StringState::class) {
-                Log.e(TAG, "onDataAdded: $it")
-            }
-        }
-
-        override fun getDefaultState(): Int = 0
-        override fun getNullState(): Int = -1
-
-        override fun getDataState(data: String): StringState? {
-            return super.getDataState(data) as StringState?
-        }
-
-        override fun onCreateStateHolder(data: String): StateHolder {
-            return StringState(data)
-        }
-
-        inner class StringState(data: String) : StateHolder(data)
-
-    }
-
-    class Builder : AbstractBuilder<String?, Int?>() {
-
-        override fun onCreateResult(param: Int?): String? {
-            return param?.toString()
-        }
-        override fun onCreateParams(): Int {
-            return 10;
-        }
-
     }
 
 }

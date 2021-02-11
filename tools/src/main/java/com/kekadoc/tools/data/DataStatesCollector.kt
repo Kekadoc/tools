@@ -1,7 +1,5 @@
 package com.kekadoc.tools.data
 
-import kotlin.reflect.KClass
-
 abstract class DataStatesCollector<Data, State> {
 
     companion object {
@@ -9,25 +7,21 @@ abstract class DataStatesCollector<Data, State> {
     }
 
     protected fun Data.isState(state: State): Boolean {
-        return getDataState(this)?.getState() == state
+        return getState(this)?.getState() == state
     }
 
     private val data = hashMapOf<Data, StateHolder>()
 
-    open fun getDataState(data: Data): StateHolder? {
+    fun getAllStates(): Collection<StateHolder> {
+        return data.values
+    }
+
+    open fun getState(data: Data): StateHolder? {
         return findDataState(data)
     }
 
     protected fun findDataState(data: Data): StateHolder? {
         return this.data[data]
-    }
-
-    fun <T : StateHolder> foreachState(clazz: KClass<T>, iterator: (state: T) -> Unit) {
-        data.forEach {
-            val state = it.value
-            if (clazz.isInstance(state))
-                iterator.invoke(state as T)
-        }
     }
 
     fun addData(data: Data): StateHolder {
