@@ -36,10 +36,10 @@ abstract class DataStatesCollector<Data, State> {
         return viewState
     }
     fun removeData(data: Data) {
-        if (this.data.contains(data)) {
+        getState(data)?.let {
+            it.setState(getDefaultState())
             onDataRemoved(data)
             this.data.remove(data)?.clear()
-
         }
     }
 
