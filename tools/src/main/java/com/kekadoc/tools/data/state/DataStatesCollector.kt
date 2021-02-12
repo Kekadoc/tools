@@ -17,7 +17,7 @@ fun <Data, State> dataStatesCollector():
     return DataStatesCollector.Simple()
 }
 
-fun <Data, State> dataStatesCollector(observer: (oldState: State, newState: State) -> Unit):
+fun <Data, State> dataStatesCollector(observer: (keeper: StateKeeper<Data, State>, oldState: State, newState: State) -> Unit):
         DataStatesCollector<Data, State, StateKeeper.Default<Data, State>> {
     return object : DataStatesCollector.Simple<Data, State>() {
         override fun onDataStateChange(
@@ -25,7 +25,7 @@ fun <Data, State> dataStatesCollector(observer: (oldState: State, newState: Stat
             oldState: State,
             newState: State
         ) {
-            observer.invoke(oldState, newState)
+            observer.invoke(keeper, oldState, newState)
         }
     }
 }
@@ -38,6 +38,11 @@ abstract class DataStatesCollector<Data, State, Keeper : StateKeeper<Data, State
     }
 
     private val states = hashMapOf<Data, Keeper>()
+
+    fun setState(data: Data, state: State) {
+        val keeper = getStateKeeper(data) ?: throw NullPointerException()
+        keeper.state = state
+    }
 
     fun getStateKeeper(data: Data): Keeper? = states[data]
     fun getAllData(): List<Data> = states.keys.toList()
