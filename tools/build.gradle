@@ -12,8 +12,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    //implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'com.github.dcendents:android-maven-plugin:1.0'
 }
 compileKotlin {
