@@ -1,4 +1,4 @@
-package com.kekadoc.tools.annotations;
+package com.kekadoc.tools.value;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,6 +1,6 @@
 package com.kekadoc.tools.text
 
-import com.kekadoc.tools.character.Chars
+import com.kekadoc.tools.character.CharUtils
 import java.util.*
 
 object RomanNumber {
@@ -9,7 +9,7 @@ object RomanNumber {
 
     @JvmStatic
     fun toRoman(number: Int): String? {
-        val l = map.floorKey(number) ?: return Chars.INFINITY.toString()
+        val l = map.floorKey(number) ?: return CharUtils.INFINITY.toString()
         return if (number == l) map[number] else map[l].toString() + toRoman(number - l)
     }
 

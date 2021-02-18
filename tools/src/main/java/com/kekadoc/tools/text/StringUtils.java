@@ -1,13 +1,13 @@
 package com.kekadoc.tools.text;
 
-import com.kekadoc.tools.character.Chars;
+import com.kekadoc.tools.character.CharUtils;
 
 public final class StringUtils {
     private StringUtils() {}
 
     public static final String NULL = "Null";
     public static final String EMPTY = "";
-    public static final String ELLIPSIS = Character.toString(Chars.ELLIPSIS);
+    public static final String ELLIPSIS = Character.toString(CharUtils.ELLIPSIS);
 
     public static CharSequence specificSize(CharSequence sequence, int maxSize) {
         if (sequence == null) return null;

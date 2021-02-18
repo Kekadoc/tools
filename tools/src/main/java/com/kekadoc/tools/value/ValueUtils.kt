@@ -11,13 +11,13 @@ object ValueUtils {
         if (newValue > to) {
             val overflow = value - to
             value = to
-            event?.onOverflow(from, to, value, overflow)
             event?.onMax(from, to)
+            event?.onOverflow(from, to, value, overflow)
         } else if (value < from) {
             val overflow = value - from
             value = from
-            event?.onOverflow(from, to, value, overflow)
             event?.onMin(from, to)
+            event?.onOverflow(from, to, value, overflow)
         }
         event?.onChange(from, to, value, value)
         return value
@@ -28,13 +28,13 @@ object ValueUtils {
         if (value > to) {
             val overflow = value - to
             value = to
-            event?.onOverflow(from, to, value, overflow)
             event?.onMax(from, to)
+            event?.onOverflow(from, to, value, overflow)
         } else if (value < from) {
             val overflow = value - from
             value = from
-            event?.onOverflow(from, to, value, overflow)
             event?.onMin(from, to)
+            event?.onOverflow(from, to, value, overflow)
         }
         event?.onChange(from, to, value, value - currentValue)
         return value
@@ -46,13 +46,13 @@ object ValueUtils {
         if (newValue > to) {
             val overflow = value - to
             value = to
-            event?.onOverflow(from, to, value, overflow)
             event?.onMax(from, to)
+            event?.onOverflow(from, to, value, overflow)
         } else if (value < from) {
             val overflow = value - from
             value = from
-            event?.onOverflow(from, to, value, overflow)
             event?.onMin(from, to)
+            event?.onOverflow(from, to, value, overflow)
         }
         event?.onChange(from, to, value, value)
         return value
@@ -63,13 +63,13 @@ object ValueUtils {
         if (value > to) {
             val overflow = value - to
             value = to
-            event?.onOverflow(from, to, value, overflow)
             event?.onMax(from, to)
+            event?.onOverflow(from, to, value, overflow)
         } else if (value < from) {
             val overflow = value - from
             value = from
-            event?.onOverflow(from, to, value, overflow)
             event?.onMin(from, to)
+            event?.onOverflow(from, to, value, overflow)
         }
         event?.onChange(from, to, value, value - currentValue)
         return value
@@ -81,13 +81,13 @@ object ValueUtils {
         if (newValue > to) {
             val overflow = value - to
             value = to
-            event?.onOverflow(from, to, value, overflow)
             event?.onMax(from, to)
+            event?.onOverflow(from, to, value, overflow)
         } else if (value < from) {
             val overflow = value - from
             value = from
-            event?.onOverflow(from, to, value, overflow)
             event?.onMin(from, to)
+            event?.onOverflow(from, to, value, overflow)
         }
         event?.onChange(from, to, value, value)
         return value
@@ -98,13 +98,13 @@ object ValueUtils {
         if (value > to) {
             val overflow = value - to
             value = to
-            event?.onOverflow(from, to, value, overflow)
             event?.onMax(from, to)
+            event?.onOverflow(from, to, value, overflow)
         } else if (value < from) {
             val overflow = value - from
             value = from
-            event?.onOverflow(from, to, value, overflow)
             event?.onMin(from, to)
+            event?.onOverflow(from, to, value, overflow)
         }
         event?.onChange(from, to, value, value - currentValue)
         return value
@@ -116,13 +116,13 @@ object ValueUtils {
         if (newValue > to) {
             val overflow = value - to
             value = to
-            event?.onOverflow(from, to, value, overflow)
             event?.onMax(from, to)
+            event?.onOverflow(from, to, value, overflow)
         } else if (value < from) {
             val overflow = value - from
             value = from
-            event?.onOverflow(from, to, value, overflow)
             event?.onMin(from, to)
+            event?.onOverflow(from, to, value, overflow)
         }
         event?.onChange(from, to, value, value)
         return value
@@ -133,13 +133,13 @@ object ValueUtils {
         if (value > to) {
             val overflow = value - to
             value = to
-            event?.onOverflow(from, to, value, overflow)
             event?.onMax(from, to)
+            event?.onOverflow(from, to, value, overflow)
         } else if (value < from) {
             val overflow = value - from
             value = from
-            event?.onOverflow(from, to, value, overflow)
             event?.onMin(from, to)
+            event?.onOverflow(from, to, value, overflow)
         }
         event?.onChange(from, to, value, value - currentValue)
         return value

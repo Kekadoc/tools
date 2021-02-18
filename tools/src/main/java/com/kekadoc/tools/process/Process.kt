@@ -47,6 +47,6 @@ interface Process : Fraction {
     /**
      * Current progress
      */
-    override fun getFraction(): FractionValue
+    override fun getFraction(): Double
 
 }

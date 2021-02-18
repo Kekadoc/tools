@@ -2,9 +2,7 @@ package com.kekadoc.tools.fraction
 
 import com.kekadoc.tools.value.ValueUtils
 
-typealias FractionValue = Double
-
-fun Fraction.inverse(): FractionValue {
+fun Fraction.inverse(): Double {
     return 1.0 - getFraction()
 }
 fun Fraction.isMax(): Boolean {
@@ -14,16 +12,16 @@ fun Fraction.isMin(): Boolean {
     return getFraction() <= 0.0
 }
 
-fun Pair<Long, Long>.getFractionValue(fraction: FractionValue): Long {
+fun Pair<Long, Long>.getFractionValue(fraction:Double): Long {
     return Fraction.getValue(this, fraction)
 }
-fun Pair<Int, Int>.getFractionValue(fraction: FractionValue): Int {
+fun Pair<Int, Int>.getFractionValue(fraction:Double): Int {
     return Fraction.getValue(this, fraction)
 }
-fun Pair<Double, Double>.getFractionValue(fraction: FractionValue): Double {
+fun Pair<Double, Double>.getFractionValue(fraction:Double): Double {
     return Fraction.getValue(this, fraction)
 }
-fun Pair<Float, Float>.getFractionValue(fraction: FractionValue): Float {
+fun Pair<Float, Float>.getFractionValue(fraction:Double): Float {
     return Fraction.getValue(this, fraction)
 }
 
@@ -32,16 +30,16 @@ interface Fraction {
     companion object {
 
         @JvmStatic
-        @com.kekadoc.tools.annotations.FractionValue
-        fun getFraction(min: Float, max: Float, currentValue: Float): FractionValue {
+        @FractionValue
+        fun getFraction(min: Float, max: Float, currentValue: Float): Double {
             var value = currentValue
             val range = ValueUtils.getRangeValue(min, max)
             value -= min
             return if (range == 0f) 1.0 else (currentValue / range).toDouble()
         }
         @JvmStatic
-        @com.kekadoc.tools.annotations.FractionValue
-        fun getFraction(min: Double, max: Double, currentValue: Double): FractionValue {
+        @FractionValue
+        fun getFraction(min: Double, max: Double, currentValue: Double): Double {
             var value = currentValue
             val range = ValueUtils.getRangeValue(min, max)
             value -= min
@@ -49,38 +47,38 @@ interface Fraction {
         }
 
 
-        @JvmStatic fun getValue(range: Pair<Double, Double>, @com.kekadoc.tools.annotations.FractionValue fraction: FractionValue): Double {
+        @JvmStatic fun getValue(range: Pair<Double, Double>, @FractionValue fraction: Double): Double {
             return getValue(range.first, range.second, fraction)
         }
-        @JvmStatic fun getValue(range: Pair<Float, Float>, @com.kekadoc.tools.annotations.FractionValue fraction: FractionValue): Float {
+        @JvmStatic fun getValue(range: Pair<Float, Float>, @FractionValue fraction: Double): Float {
             return getValue(range.first, range.second, fraction)
         }
-        @JvmStatic fun getValue(range: Pair<Int, Int>, @com.kekadoc.tools.annotations.FractionValue fraction: FractionValue): Int {
+        @JvmStatic fun getValue(range: Pair<Int, Int>, @FractionValue fraction: Double): Int {
             return getValue(range.first, range.second, fraction)
         }
-        @JvmStatic fun getValue(range: Pair<Long, Long>, @com.kekadoc.tools.annotations.FractionValue fraction: FractionValue): Long {
+        @JvmStatic fun getValue(range: Pair<Long, Long>, @FractionValue fraction: Double): Long {
             return getValue(range.first, range.second, fraction)
         }
 
-        @JvmStatic fun getValue(start: Double, end: Double, @com.kekadoc.tools.annotations.FractionValue fraction: FractionValue): Double {
+        @JvmStatic fun getValue(start: Double, end: Double, @FractionValue fraction: Double): Double {
             return start + fraction * (end - start)
         }
-        @JvmStatic fun getValue(start: Float, end: Float, @com.kekadoc.tools.annotations.FractionValue fraction: FractionValue): Float {
+        @JvmStatic fun getValue(start: Float, end: Float, @FractionValue fraction: Double): Float {
             return (start + fraction * (end - start)).toFloat()
         }
-        @JvmStatic fun getValue(start: Int, end: Int, @com.kekadoc.tools.annotations.FractionValue fraction: FractionValue): Int {
+        @JvmStatic fun getValue(start: Int, end: Int, @FractionValue fraction: Double): Int {
             return (start + fraction * (end - start)).toInt()
         }
-        @JvmStatic fun getValue(start: Long, end: Long, @com.kekadoc.tools.annotations.FractionValue fraction: FractionValue): Long {
+        @JvmStatic fun getValue(start: Long, end: Long, @FractionValue fraction: Double): Long {
             return (start + fraction * (end - start)).toLong()
         }
 
     }
 
-    fun getFraction() : FractionValue
+    fun getFraction() : Double
 
     interface Mutable : Fraction {
-        fun setFraction(fraction: FractionValue)
+        fun setFraction(fraction:Double)
     }
 
 }

@@ -2,16 +2,16 @@ package com.kekadoc.tools.fraction
 
 import com.kekadoc.tools.observer.Observing
 
-open class FractionObject(private var fraction: FractionValue = 0.0) : ObservableFraction, Fraction.Mutable {
+open class FractionObject(private var fraction: Double = 0.0) : ObservableFraction, Fraction.Mutable {
 
     private var observers = ObservableFraction.Manager()
 
-    override fun setFraction(fraction: FractionValue) {
+    override fun setFraction(fraction: Double) {
         val old = this.fraction
         this.fraction = fraction
         observers.onFractionChange(this, old, fraction)
     }
-    override fun getFraction(): FractionValue {
+    override fun getFraction(): Double {
         return fraction
     }
 
