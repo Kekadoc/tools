@@ -12,6 +12,10 @@ fun Fraction.isMin(): Boolean {
     return getFraction() <= 0.0
 }
 
+fun Fraction.Mutable.change(newFraction: Double, observer: FractionObserver? = null): Double {
+    return Fraction.change(this, newFraction, observer)
+}
+
 fun Pair<Long, Long>.getFractionValue(fraction:Double): Long {
     return Fraction.getValue(this, fraction)
 }
@@ -28,6 +32,15 @@ fun Pair<Float, Float>.getFractionValue(fraction:Double): Float {
 interface Fraction {
 
     companion object {
+
+        fun change(fraction: Fraction.Mutable, newFraction: Double, observer: FractionObserver? = null): Double {
+            return ValueUtils.addValueInRange(0.0, 1.0, fraction.getFraction(), newFraction) {
+                onChange = {oldValue, newValue ->
+                    fraction.setFraction(newValue)
+                    observer?.onFractionChange(fraction, oldValue, newValue)
+                }
+            }
+        }
 
         @JvmStatic
         @FractionValue

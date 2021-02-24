@@ -9,5 +9,5 @@ import java.lang.annotation.Target;
  * Percentage marker
  */
 @Retention(RetentionPolicy.SOURCE)
-@Target({ElementType.FIELD, ElementType.LOCAL_VARIABLE, ElementType.METHOD, ElementType.PARAMETER})
+@Target({ElementType.FIELD, ElementType.LOCAL_VARIABLE, ElementType.METHOD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
 public @interface Percentage {}

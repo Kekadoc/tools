@@ -6,150 +6,175 @@ import kotlin.math.roundToInt
 object ValueUtils {
 
     @JvmOverloads
-    fun setValueInRange(from: Long, to: Long, newValue: Long, event: RangeChangeEvents<Long>? = null): Long {
-        var value = newValue
-        if (newValue > to) {
-            val overflow = value - to
-            value = to
-            event?.onMax(from, to)
-            event?.onOverflow(from, to, value, overflow)
-        } else if (value < from) {
-            val overflow = value - from
-            value = from
-            event?.onMin(from, to)
-            event?.onOverflow(from, to, value, overflow)
-        }
-        event?.onChange(from, to, value, value)
-        return value
+    fun setValueInRange(from: Long, to: Long, newValue: Long,
+                        event: RangeChangeEvents<Long>? = null): Long {
+        return addValueInRange(from, to, from, newValue, event)
     }
     @JvmOverloads
-    fun addValueInRange(from: Long, to: Long, currentValue: Long, addition: Long, event: RangeChangeEvents<Long>? = null): Long {
+    fun addValueInRange(from: Long, to: Long, currentValue: Long, addition: Long,
+                        event: RangeChangeEvents<Long>? = null): Long {
         var value = currentValue + addition
         if (value > to) {
             val overflow = value - to
             value = to
-            event?.onMax(from, to)
-            event?.onOverflow(from, to, value, overflow)
+            event?.onMax()
+            event?.onOverflow(overflow)
         } else if (value < from) {
             val overflow = value - from
             value = from
-            event?.onMin(from, to)
-            event?.onOverflow(from, to, value, overflow)
+            event?.onMin()
+            event?.onOverflow(overflow)
         }
-        event?.onChange(from, to, value, value - currentValue)
+        event?.onChange(currentValue, value)
         return value
     }
 
+    inline fun setValueInRange(from: Long, to: Long, newValue: Long,
+                               eventsBuilder: (RangeChangeEventsBuilder<Long>.() -> Unit)): Long {
+        return addValueInRange(from, to, from, newValue, eventsBuilder)
+    }
+    inline fun addValueInRange(from: Long, to: Long, currentValue: Long, addition: Long,
+                               eventsBuilder: (RangeChangeEventsBuilder<Long>.() -> Unit)): Long {
+        val e = RangeChangeEventsBuilder<Long>()
+        eventsBuilder.invoke(e)
+        return addValueInRange(from, to, currentValue, addition, e)
+    }
+
+
     @JvmOverloads
-    fun setValueInRange(from: Int, to: Int, newValue: Int, event: RangeChangeEvents<Int>? = null): Int {
-        var value = newValue
-        if (newValue > to) {
-            val overflow = value - to
-            value = to
-            event?.onMax(from, to)
-            event?.onOverflow(from, to, value, overflow)
-        } else if (value < from) {
-            val overflow = value - from
-            value = from
-            event?.onMin(from, to)
-            event?.onOverflow(from, to, value, overflow)
-        }
-        event?.onChange(from, to, value, value)
-        return value
+    fun setValueInRange(from: Int, to: Int, newValue: Int,
+                        event: RangeChangeEvents<Int>? = null): Int {
+        return addValueInRange(from, to, from, newValue, event)
     }
     @JvmOverloads
-    fun addValueInRange(from: Int, to: Int, currentValue: Int, addition: Int, event: RangeChangeEvents<Int>? = null): Int {
+    fun addValueInRange(from: Int, to: Int, currentValue: Int, addition: Int,
+                        event: RangeChangeEvents<Int>? = null): Int {
         var value = currentValue + addition
         if (value > to) {
             val overflow = value - to
             value = to
-            event?.onMax(from, to)
-            event?.onOverflow(from, to, value, overflow)
+            event?.onMax()
+            event?.onOverflow(overflow)
         } else if (value < from) {
             val overflow = value - from
             value = from
-            event?.onMin(from, to)
-            event?.onOverflow(from, to, value, overflow)
+            event?.onMin()
+            event?.onOverflow(overflow)
         }
-        event?.onChange(from, to, value, value - currentValue)
+        event?.onChange(currentValue, value)
         return value
     }
 
+    inline fun setValueInRange(from: Int, to: Int, newValue: Int,
+                               eventsBuilder: (RangeChangeEventsBuilder<Int>.() -> Unit)): Int {
+        return addValueInRange(from, to, from, newValue, eventsBuilder)
+    }
+    inline fun addValueInRange(from: Int, to: Int, currentValue: Int, addition: Int,
+                               eventsBuilder: (RangeChangeEventsBuilder<Int>.() -> Unit)): Int {
+        val e = RangeChangeEventsBuilder<Int>()
+        eventsBuilder.invoke(e)
+        return addValueInRange(from, to, currentValue, addition, e)
+    }
+
+
     @JvmOverloads
-    fun setValueInRange(from: Double, to: Double, newValue: Double, event: RangeChangeEvents<Double>? = null): Double {
-        var value = newValue
-        if (newValue > to) {
-            val overflow = value - to
-            value = to
-            event?.onMax(from, to)
-            event?.onOverflow(from, to, value, overflow)
-        } else if (value < from) {
-            val overflow = value - from
-            value = from
-            event?.onMin(from, to)
-            event?.onOverflow(from, to, value, overflow)
-        }
-        event?.onChange(from, to, value, value)
-        return value
+    fun setValueInRange(from: Double, to: Double, newValue: Double,
+                        event: RangeChangeEvents<Double>? = null): Double {
+        return addValueInRange(from, to, from, newValue, event)
     }
     @JvmOverloads
-    fun addValueInRange(from: Double, to: Double, currentValue: Double, addition: Float, event: RangeChangeEvents<Double>? = null): Double {
+    fun addValueInRange(from: Double, to: Double, currentValue: Double, addition: Double,
+                        event: RangeChangeEvents<Double>? = null): Double {
         var value = currentValue + addition
         if (value > to) {
             val overflow = value - to
             value = to
-            event?.onMax(from, to)
-            event?.onOverflow(from, to, value, overflow)
+            event?.onMax()
+            event?.onOverflow(overflow)
         } else if (value < from) {
             val overflow = value - from
             value = from
-            event?.onMin(from, to)
-            event?.onOverflow(from, to, value, overflow)
+            event?.onMin()
+            event?.onOverflow(overflow)
         }
-        event?.onChange(from, to, value, value - currentValue)
+        event?.onChange(currentValue, value)
         return value
     }
 
+    inline fun setValueInRange(from: Double, to: Double, newValue: Double,
+                               eventsBuilder: (RangeChangeEventsBuilder<Double>.() -> Unit)): Double {
+        return addValueInRange(from, to, from, newValue, eventsBuilder)
+    }
+    inline fun addValueInRange(from: Double, to: Double, currentValue: Double, addition: Double,
+                               eventsBuilder: (RangeChangeEventsBuilder<Double>.() -> Unit)): Double {
+        val e = RangeChangeEventsBuilder<Double>()
+        eventsBuilder.invoke(e)
+        return addValueInRange(from, to, currentValue, addition, e)
+    }
+
+
     @JvmOverloads
-    fun setValueInRange(from: Float, to: Float, newValue: Float, event: RangeChangeEvents<Float>? = null): Float {
-        var value = newValue
-        if (newValue > to) {
-            val overflow = value - to
-            value = to
-            event?.onMax(from, to)
-            event?.onOverflow(from, to, value, overflow)
-        } else if (value < from) {
-            val overflow = value - from
-            value = from
-            event?.onMin(from, to)
-            event?.onOverflow(from, to, value, overflow)
-        }
-        event?.onChange(from, to, value, value)
-        return value
+    fun setValueInRange(from: Float, to: Float, newValue: Float,
+                        event: RangeChangeEvents<Float>? = null): Float {
+        return addValueInRange(from, to, from, newValue, event)
     }
     @JvmOverloads
-    fun addValueInRange(from: Float, to: Float, currentValue: Float, addition: Float, event: RangeChangeEvents<Float>? = null): Float {
+    fun addValueInRange(from: Float, to: Float, currentValue: Float, addition: Float,
+                        event: RangeChangeEvents<Float>? = null): Float {
         var value = currentValue + addition
         if (value > to) {
             val overflow = value - to
             value = to
-            event?.onMax(from, to)
-            event?.onOverflow(from, to, value, overflow)
+            event?.onMax()
+            event?.onOverflow(overflow)
         } else if (value < from) {
             val overflow = value - from
             value = from
-            event?.onMin(from, to)
-            event?.onOverflow(from, to, value, overflow)
+            event?.onMin()
+            event?.onOverflow(overflow)
         }
-        event?.onChange(from, to, value, value - currentValue)
+        event?.onChange(currentValue, value)
         return value
     }
+
+    inline fun setValueInRange(from: Float, to: Float, newValue: Float,
+                               eventsBuilder: (RangeChangeEventsBuilder<Float>.() -> Unit)): Float {
+        return addValueInRange(from, to, from, newValue, eventsBuilder)
+    }
+    inline fun addValueInRange(from: Float, to: Float, currentValue: Float, addition: Float,
+                               eventsBuilder: (RangeChangeEventsBuilder<Float>.() -> Unit)): Float {
+        val e = RangeChangeEventsBuilder<Float>()
+        eventsBuilder.invoke(e)
+        return addValueInRange(from, to, currentValue, addition, e)
+    }
+
 
     interface RangeChangeEvents<Value> {
-        fun onChange(min: Value, max: Value, current: Value, change: Value) {}
-        fun onOverflow(min: Value, max: Value, current: Value, overflow: Value) {}
-        fun onMax(min: Value, max: Value) {}
-        fun onMin(min: Value, max: Value) {}
+        fun onChange(oldValue: Value, newValue: Value) {}
+        fun onOverflow(overflow: Value) {}
+        fun onMax() {}
+        fun onMin() {}
+    }
+
+    class RangeChangeEventsBuilder<Value> constructor(
+            var onChange: ((oldValue: Value, newValue: Value) -> Unit)? = null,
+            var onOverflow: ((overflow: Value) -> Unit)? = null,
+            var onMax: (() -> Unit)? = null,
+            var onMin: (() -> Unit)? = null
+    ) : RangeChangeEvents<Value> {
+
+        override fun onChange(oldValue: Value, newValue: Value) {
+            onChange?.invoke(oldValue, newValue)
+        }
+        override fun onOverflow(overflow: Value) {
+            onOverflow?.invoke(overflow)
+        }
+        override fun onMax() {
+            onMax?.invoke()
+        }
+        override fun onMin() {
+            onMin?.invoke()
+        }
     }
 
     /** Округляет полученное число, до countZero знаков после запятой  */

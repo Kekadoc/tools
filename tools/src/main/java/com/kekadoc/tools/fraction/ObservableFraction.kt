@@ -8,7 +8,7 @@ interface ObservableFraction : Fraction {
     fun addFractionObserver(observer: FractionObserver): Observing
 
     class Manager : ObserverManagement<FractionObserver>(), FractionObserver {
-        override fun onFractionChange(fraction: ObservableFraction, oldFraction: Double, newFraction: Double) {
+        override fun onFractionChange(fraction: Fraction, oldFraction: Double, newFraction: Double) {
             for (observer in getIterationObservers()) observer.onFractionChange(fraction, oldFraction, newFraction)
         }
     }
