@@ -15,6 +15,9 @@ fun Fraction.isMin(): Boolean {
 fun Fraction.Mutable.change(newFraction: Double, observer: FractionObserver? = null): Double {
     return Fraction.change(this, newFraction, observer)
 }
+fun Fraction.Mutable.add(adding: Double, observer: FractionObserver? = null): Double {
+    return Fraction.add(this, adding, observer)
+}
 
 fun Pair<Long, Long>.getFractionValue(fraction:Double): Long {
     return Fraction.getValue(this, fraction)
@@ -34,10 +37,21 @@ interface Fraction {
     companion object {
 
         fun change(fraction: Fraction.Mutable, newFraction: Double, observer: FractionObserver? = null): Double {
-            return ValueUtils.addValueInRange(0.0, 1.0, fraction.getFraction(), newFraction) {
-                onChange = {oldValue, newValue ->
+
+            return ValueUtils.setValueInRange(0.0, 1.0, newFraction) {
+                onChange = {_, newValue ->
+                    val old = fraction.getFraction()
                     fraction.setFraction(newValue)
-                    observer?.onFractionChange(fraction, oldValue, newValue)
+                    observer?.onFractionChange(fraction, old, newValue)
+                }
+            }
+        }
+        fun add(fraction: Fraction.Mutable, adding: Double, observer: FractionObserver? = null): Double {
+            return ValueUtils.addValueInRange(0.0, 1.0, fraction.getFraction(), adding) {
+                onChange = {oldValue, newValue ->
+                    val old = fraction.getFraction()
+                    fraction.setFraction(newValue)
+                    observer?.onFractionChange(fraction, old, newValue)
                 }
             }
         }
