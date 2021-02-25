@@ -9,10 +9,12 @@ open class SimpleContent : ContentUI {
 
     override fun isShown() = shown
     override fun show() {
+        if (shown) return
         shown = true
         onShown()
     }
     override fun hide() {
+        if (!shown) return
         shown = false
         onHide()
     }

@@ -17,6 +17,7 @@ open class SimpleLoading : SimpleContent(), ContentUI.Loading {
     override fun getFraction(): Double = progress
 
     override fun setFraction(fraction: Double) {
+        if (progress == fraction) return
         ValueUtils.setValueInRange(0.0, 1.0, fraction, object : ValueUtils.RangeChangeEvents<Double> {
             override fun onChange(oldValue: Double, newValue: Double) {
                 progress = newValue
