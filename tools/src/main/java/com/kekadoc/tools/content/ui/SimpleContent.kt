@@ -1,0 +1,20 @@
+package com.kekadoc.tools.content.ui
+
+open class SimpleContent : ContentUI {
+
+    private var shown = false
+
+    protected open fun onShown() {}
+    protected open fun onHide() {}
+
+    override fun isShown() = shown
+    override fun show() {
+        shown = true
+        onShown()
+    }
+    override fun hide() {
+        shown = false
+        onHide()
+    }
+
+}

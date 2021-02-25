@@ -2,23 +2,16 @@ package com.kekadoc.tools.content.ui
 
 import com.kekadoc.tools.value.ValueUtils
 
-open class SimpleLoading(val observer: ContentUI.Loading.Observer? = null) : ContentUI.Loading {
+open class SimpleLoading : SimpleContent(), ContentUI.Loading {
 
-    private var active = false
     private var progress = 0.0
 
-    override fun isShown() = active
-    override fun hide() {
-        active = false
-        observer?.onHide()
-    }
-    override fun show() {
-        active = true
-        observer?.onShow()
-    }
+    protected open fun onComplete() {}
+    protected open fun onProgress(old: Double, progress: Double) {}
+
     override fun complete() {
         setFraction(1.0)
-        observer?.onComplete()
+        onComplete()
     }
 
     override fun getFraction(): Double = progress
@@ -27,13 +20,11 @@ open class SimpleLoading(val observer: ContentUI.Loading.Observer? = null) : Con
         ValueUtils.setValueInRange(0.0, 1.0, fraction, object : ValueUtils.RangeChangeEvents<Double> {
             override fun onChange(oldValue: Double, newValue: Double) {
                 progress = newValue
-                observer?.onFractionChange(this@SimpleLoading, oldValue, progress)
+                onProgress(oldValue, newValue)
             }
-
             override fun onMax() {
                 complete()
             }
-
             override fun onMin() {}
             override fun onOverflow(overflow: Double) {}
         })
