@@ -62,6 +62,7 @@ abstract class DataStatesCollector<Data, State, Keeper : StateKeeper<Data, State
             this.states[data] = keeper
             onAdded(keeper)
         }
+        else keeper.state = state
 
         return keeper
     }

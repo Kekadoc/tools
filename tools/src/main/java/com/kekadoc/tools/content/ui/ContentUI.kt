@@ -13,20 +13,21 @@ interface ContentUI {
     }
 
     /**
-     * Показать контент
-     * Вызывается что бы представить имеющийся контент
+     * Show content
      * @param code Unique code
+     * @return [Content]
      */
-    fun show(code: Int = EMPTY_CODE)
+    fun content(code: Int = EMPTY_CODE): Content
     /**
-     * Вывод ошибки контента
+     * Show message
      * @param code Unique code
+     * @return [Message]
      */
-    fun error(code: Int = EMPTY_CODE)
+    fun message(code: Int = EMPTY_CODE): Message
     /**
      * Start loading in content with code
      * @param code Unique code
-     * @return Load object to manage
+     * @return [Loading]
      */
     fun loading(code: Int = EMPTY_CODE): Loading
 
@@ -38,6 +39,15 @@ interface ContentUI {
     fun notify(code: Int = EMPTY_CODE)
 
     interface Loading : Fraction.Mutable {
+
+        object Empty : Loading {
+            override fun isActive(): Boolean = false
+            override fun show() {}
+            override fun remove() {}
+            override fun complete() {}
+            override fun getFraction(): Double = 0.0
+            override fun setFraction(fraction: Double) {}
+        }
 
         interface Observer : FractionObserver {
             fun onShow()
@@ -69,6 +79,44 @@ interface ContentUI {
 
         override fun getFraction(): Double
         override fun setFraction(fraction: Double)
+
+    }
+
+    interface Content {
+
+        object Empty : Content {
+            override fun isShown(): Boolean = false
+            override fun show() {}
+            override fun hide() {}
+        }
+
+        interface Observer {
+            fun onShow()
+            fun onHide()
+            fun onComplete()
+        }
+
+        fun isShown(): Boolean
+        fun show()
+        fun hide()
+    }
+
+    interface Message {
+
+        object Empty : Message {
+            override fun isShown(): Boolean = false
+            override fun show() {}
+            override fun remove() {}
+        }
+
+        interface Observer {
+            fun onShow()
+            fun onRemove()
+        }
+
+        fun isShown(): Boolean
+        fun show()
+        fun remove()
 
     }
 
