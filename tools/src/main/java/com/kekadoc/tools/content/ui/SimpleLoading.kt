@@ -7,17 +7,18 @@ open class SimpleLoading(val observer: ContentUI.Loading.Observer? = null) : Con
     private var active = false
     private var progress = 0.0
 
-    override fun isActive(): Boolean = active
+    override fun isShown() = active
+    override fun hide() {
+        active = false
+        observer?.onHide()
+    }
     override fun show() {
         active = true
         observer?.onShow()
     }
-    override fun remove() {
-        active = false
-        observer?.onRemove()
-    }
     override fun complete() {
         setFraction(1.0)
+        observer?.onComplete()
     }
 
     override fun getFraction(): Double = progress
