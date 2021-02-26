@@ -3,7 +3,7 @@ package com.kekadoc.tools.fraction
 import com.kekadoc.tools.observer.ObserverManagement
 import com.kekadoc.tools.observer.Observing
 
-interface ObservableFraction : Fraction {
+interface ObservableFraction : Fraction.Mutable {
 
     fun addFractionObserver(observer: FractionObserver): Observing
 

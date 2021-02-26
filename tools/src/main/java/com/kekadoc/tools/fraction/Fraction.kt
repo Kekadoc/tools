@@ -2,6 +2,32 @@ package com.kekadoc.tools.fraction
 
 import com.kekadoc.tools.value.ValueUtils
 
+fun Double.toFraction(): Fraction = fractionOf(this)
+fun Double.toMutableFraction(): Fraction = mutableFractionOf(this)
+fun Double.toObservableFraction(): Fraction = observableFractionOf(this)
+
+fun fractionOf(@FractionValue fraction: Double): Fraction {
+    return object : Fraction {
+        override fun getFraction(): Double {
+            return fraction
+        }
+    }
+}
+fun mutableFractionOf(@FractionValue fraction: Double): Fraction.Mutable {
+    return object : Fraction.Mutable {
+        private var frac = fraction
+        override fun getFraction(): Double {
+            return frac
+        }
+        override fun setFraction(fraction: Double) {
+            frac = fraction
+        }
+    }
+}
+fun observableFractionOf(@FractionValue fraction: Double): ObservableFraction {
+    return FractionObject(fraction)
+}
+
 fun Fraction.inverse(): Double {
     return 1.0 - getFraction()
 }
