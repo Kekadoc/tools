@@ -96,10 +96,10 @@ interface ContentUI {
                         progress = newValue
                         onProgress(oldValue, newValue)
                     }
-                    override fun onMax() {
+                    override fun onMax(max: Double) {
                         complete()
                     }
-                    override fun onMin() {}
+                    override fun onMin(min: Double) {}
                     override fun onOverflow(overflow: Double) {}
                 })
             }

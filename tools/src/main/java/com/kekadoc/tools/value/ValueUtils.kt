@@ -17,12 +17,12 @@ object ValueUtils {
         if (value > to) {
             val overflow = value - to
             value = to
-            event?.onMax()
+            event?.onMax(to)
             event?.onOverflow(overflow)
         } else if (value < from) {
             val overflow = value - from
             value = from
-            event?.onMin()
+            event?.onMin(from)
             event?.onOverflow(overflow)
         }
         event?.onChange(currentValue, value)
@@ -53,12 +53,12 @@ object ValueUtils {
         if (value > to) {
             val overflow = value - to
             value = to
-            event?.onMax()
+            event?.onMax(to)
             event?.onOverflow(overflow)
         } else if (value < from) {
             val overflow = value - from
             value = from
-            event?.onMin()
+            event?.onMin(from)
             event?.onOverflow(overflow)
         }
         event?.onChange(currentValue, value)
@@ -89,12 +89,12 @@ object ValueUtils {
         if (value > to) {
             val overflow = value - to
             value = to
-            event?.onMax()
+            event?.onMax(to)
             event?.onOverflow(overflow)
         } else if (value < from) {
             val overflow = value - from
             value = from
-            event?.onMin()
+            event?.onMin(from)
             event?.onOverflow(overflow)
         }
         event?.onChange(currentValue, value)
@@ -125,12 +125,12 @@ object ValueUtils {
         if (value > to) {
             val overflow = value - to
             value = to
-            event?.onMax()
+            event?.onMax(to)
             event?.onOverflow(overflow)
         } else if (value < from) {
             val overflow = value - from
             value = from
-            event?.onMin()
+            event?.onMin(from)
             event?.onOverflow(overflow)
         }
         event?.onChange(currentValue, value)
@@ -152,15 +152,15 @@ object ValueUtils {
     interface RangeChangeEvents<Value> {
         fun onChange(oldValue: Value, newValue: Value) {}
         fun onOverflow(overflow: Value) {}
-        fun onMax() {}
-        fun onMin() {}
+        fun onMax(max: Value) {}
+        fun onMin(min: Value) {}
     }
 
     class RangeChangeEventsBuilder<Value> constructor(
             var onChange: ((oldValue: Value, newValue: Value) -> Unit)? = null,
             var onOverflow: ((overflow: Value) -> Unit)? = null,
-            var onMax: (() -> Unit)? = null,
-            var onMin: (() -> Unit)? = null
+            var onMax: ((max: Value) -> Unit)? = null,
+            var onMin: ((min: Value) -> Unit)? = null
     ) : RangeChangeEvents<Value> {
 
         override fun onChange(oldValue: Value, newValue: Value) {
@@ -169,11 +169,11 @@ object ValueUtils {
         override fun onOverflow(overflow: Value) {
             onOverflow?.invoke(overflow)
         }
-        override fun onMax() {
-            onMax?.invoke()
+        override fun onMax(max: Value) {
+            onMax?.invoke(max)
         }
-        override fun onMin() {
-            onMin?.invoke()
+        override fun onMin(min: Value) {
+            onMin?.invoke(min)
         }
     }
 
