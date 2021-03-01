@@ -6,12 +6,12 @@ import kotlin.math.roundToInt
 object ValueUtils {
 
     @JvmOverloads
-    fun setValueInRange(from: Long, to: Long, newValue: Long,
-                        event: RangeChangeEvents<Long>? = null): Long {
-        return addValueInRange(from, to, from, newValue, event)
+    fun valueInRange(from: Long, to: Long, newValue: Long,
+                     event: RangeChangeEvents<Long>? = null): Long {
+        return setValueInRange(from, to, from, newValue, event)
     }
     @JvmOverloads
-    fun addValueInRange(from: Long, to: Long, currentValue: Long, addition: Long,
+    fun setValueInRange(from: Long, to: Long, currentValue: Long, addition: Long,
                         event: RangeChangeEvents<Long>? = null): Long {
         var value = currentValue + addition
         if (value > to) {
@@ -29,25 +29,25 @@ object ValueUtils {
         return value
     }
 
-    inline fun setValueInRange(from: Long, to: Long, newValue: Long,
-                               eventsBuilder: (RangeChangeEventsBuilder<Long>.() -> Unit)): Long {
-        return addValueInRange(from, to, from, newValue, eventsBuilder)
+    inline fun valueInRange(from: Long, to: Long, newValue: Long,
+                            eventsBuilder: (RangeChangeEventsBuilder<Long>.() -> Unit)): Long {
+        return setValueInRange(from, to, from, newValue, eventsBuilder)
     }
-    inline fun addValueInRange(from: Long, to: Long, currentValue: Long, addition: Long,
+    inline fun setValueInRange(from: Long, to: Long, currentValue: Long, addition: Long,
                                eventsBuilder: (RangeChangeEventsBuilder<Long>.() -> Unit)): Long {
         val e = RangeChangeEventsBuilder<Long>()
         eventsBuilder.invoke(e)
-        return addValueInRange(from, to, currentValue, addition, e)
+        return setValueInRange(from, to, currentValue, addition, e)
     }
 
 
     @JvmOverloads
-    fun setValueInRange(from: Int, to: Int, newValue: Int,
-                        event: RangeChangeEvents<Int>? = null): Int {
-        return addValueInRange(from, to, from, newValue, event)
+    fun valueInRange(from: Int, to: Int, newValue: Int,
+                     event: RangeChangeEvents<Int>? = null): Int {
+        return setValueInRange(from, to, from, newValue, event)
     }
     @JvmOverloads
-    fun addValueInRange(from: Int, to: Int, currentValue: Int, addition: Int,
+    fun setValueInRange(from: Int, to: Int, currentValue: Int, addition: Int,
                         event: RangeChangeEvents<Int>? = null): Int {
         var value = currentValue + addition
         if (value > to) {
@@ -65,25 +65,25 @@ object ValueUtils {
         return value
     }
 
-    inline fun setValueInRange(from: Int, to: Int, newValue: Int,
-                               eventsBuilder: (RangeChangeEventsBuilder<Int>.() -> Unit)): Int {
-        return addValueInRange(from, to, from, newValue, eventsBuilder)
+    inline fun valueInRange(from: Int, to: Int, newValue: Int,
+                            eventsBuilder: (RangeChangeEventsBuilder<Int>.() -> Unit)): Int {
+        return setValueInRange(from, to, from, newValue, eventsBuilder)
     }
-    inline fun addValueInRange(from: Int, to: Int, currentValue: Int, addition: Int,
+    inline fun setValueInRange(from: Int, to: Int, currentValue: Int, addition: Int,
                                eventsBuilder: (RangeChangeEventsBuilder<Int>.() -> Unit)): Int {
         val e = RangeChangeEventsBuilder<Int>()
         eventsBuilder.invoke(e)
-        return addValueInRange(from, to, currentValue, addition, e)
+        return setValueInRange(from, to, currentValue, addition, e)
     }
 
 
     @JvmOverloads
-    fun setValueInRange(from: Double, to: Double, newValue: Double,
-                        event: RangeChangeEvents<Double>? = null): Double {
-        return addValueInRange(from, to, from, newValue, event)
+    fun valueInRange(from: Double, to: Double, newValue: Double,
+                     event: RangeChangeEvents<Double>? = null): Double {
+        return setValueInRange(from, to, from, newValue, event)
     }
     @JvmOverloads
-    fun addValueInRange(from: Double, to: Double, currentValue: Double, addition: Double,
+    fun setValueInRange(from: Double, to: Double, currentValue: Double, addition: Double,
                         event: RangeChangeEvents<Double>? = null): Double {
         var value = currentValue + addition
         if (value > to) {
@@ -101,25 +101,25 @@ object ValueUtils {
         return value
     }
 
-    inline fun setValueInRange(from: Double, to: Double, newValue: Double,
-                               eventsBuilder: (RangeChangeEventsBuilder<Double>.() -> Unit)): Double {
-        return addValueInRange(from, to, from, newValue, eventsBuilder)
+    inline fun valueInRange(from: Double, to: Double, newValue: Double,
+                            eventsBuilder: (RangeChangeEventsBuilder<Double>.() -> Unit)): Double {
+        return setValueInRange(from, to, from, newValue, eventsBuilder)
     }
-    inline fun addValueInRange(from: Double, to: Double, currentValue: Double, addition: Double,
+    inline fun setValueInRange(from: Double, to: Double, currentValue: Double, addition: Double,
                                eventsBuilder: (RangeChangeEventsBuilder<Double>.() -> Unit)): Double {
         val e = RangeChangeEventsBuilder<Double>()
         eventsBuilder.invoke(e)
-        return addValueInRange(from, to, currentValue, addition, e)
+        return setValueInRange(from, to, currentValue, addition, e)
     }
 
 
     @JvmOverloads
-    fun setValueInRange(from: Float, to: Float, newValue: Float,
-                        event: RangeChangeEvents<Float>? = null): Float {
-        return addValueInRange(from, to, from, newValue, event)
+    fun valueInRange(from: Float, to: Float, newValue: Float,
+                     event: RangeChangeEvents<Float>? = null): Float {
+        return setValueInRange(from, to, from, newValue, event)
     }
     @JvmOverloads
-    fun addValueInRange(from: Float, to: Float, currentValue: Float, addition: Float,
+    fun setValueInRange(from: Float, to: Float, currentValue: Float, addition: Float,
                         event: RangeChangeEvents<Float>? = null): Float {
         var value = currentValue + addition
         if (value > to) {
@@ -137,15 +137,15 @@ object ValueUtils {
         return value
     }
 
-    inline fun setValueInRange(from: Float, to: Float, newValue: Float,
-                               eventsBuilder: (RangeChangeEventsBuilder<Float>.() -> Unit)): Float {
-        return addValueInRange(from, to, from, newValue, eventsBuilder)
+    inline fun valueInRange(from: Float, to: Float, newValue: Float,
+                            eventsBuilder: (RangeChangeEventsBuilder<Float>.() -> Unit)): Float {
+        return setValueInRange(from, to, from, newValue, eventsBuilder)
     }
-    inline fun addValueInRange(from: Float, to: Float, currentValue: Float, addition: Float,
+    inline fun setValueInRange(from: Float, to: Float, currentValue: Float, addition: Float,
                                eventsBuilder: (RangeChangeEventsBuilder<Float>.() -> Unit)): Float {
         val e = RangeChangeEventsBuilder<Float>()
         eventsBuilder.invoke(e)
-        return addValueInRange(from, to, currentValue, addition, e)
+        return setValueInRange(from, to, currentValue, addition, e)
     }
 
 
@@ -177,13 +177,10 @@ object ValueUtils {
         }
     }
 
-    /** Округляет полученное число, до countZero знаков после запятой  */
     @JvmStatic fun round(value: Float, countZero: Int): Float {
         val zero: Int = 10.0.pow(countZero).toInt()
         return (value * zero).roundToInt().toFloat() / zero
     }
-
-    /** Округляет полученное число, до countZero знаков после запятой  */
     @JvmStatic fun round(value: Double, countZero: Int): Double {
         val zero: Int = 10.0.pow(countZero).toInt()
         return (value * zero).roundToInt().toDouble() / zero

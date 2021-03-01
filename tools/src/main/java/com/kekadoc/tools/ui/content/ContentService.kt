@@ -1,4 +1,4 @@
-package com.kekadoc.tools.content.ui
+package com.kekadoc.tools.ui.content
 
 /**
  * Interface for abstract ui content
@@ -12,21 +12,21 @@ interface ContentService {
     /**
      * Show content
      * @param code Unique code
-     * @return [ContentUI]
+     * @return [Content]
      */
-    fun content(code: Int = EMPTY_CODE): ContentUI
+    fun content(code: Int = EMPTY_CODE): Content
     /**
      * Show message
      * @param code Unique code
      * @return [Message]
      */
-    fun message(code: Int = EMPTY_CODE): ContentUI.Message
+    fun message(code: Int = EMPTY_CODE): Content.Message
     /**
      * Start loading in content with code
      * @param code Unique code
      * @return [Loading]
      */
-    fun loading(code: Int = EMPTY_CODE): ContentUI.Loading
+    fun loading(code: Int = EMPTY_CODE): Content.Progress
 
     /**
      * Notify content with code

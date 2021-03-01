@@ -1,4 +1,4 @@
-package com.kekadoc.tools.visual
+package com.kekadoc.tools.ui
 
 interface Visible {
 

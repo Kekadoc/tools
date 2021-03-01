@@ -62,9 +62,15 @@ interface Fraction {
 
     companion object {
 
-        fun change(fraction: Fraction.Mutable, newFraction: Double, observer: FractionObserver? = null): Double {
+        fun adjustValue(fraction: Double, events: ValueUtils.RangeChangeEvents<Double>? = null): Double {
+            return ValueUtils.valueInRange(0.0, 1.0, fraction, events)
+        }
+        fun adjustValue(fraction: Double, events: ValueUtils.RangeChangeEventsBuilder<Double>.() -> Unit): Double {
+            return ValueUtils.valueInRange(0.0, 1.0, fraction, events)
+        }
 
-            return ValueUtils.setValueInRange(0.0, 1.0, newFraction) {
+        fun change(fraction: Mutable, newFraction: Double, observer: FractionObserver? = null): Double {
+            return ValueUtils.valueInRange(0.0, 1.0, newFraction) {
                 onChange = {_, newValue ->
                     val old = fraction.getFraction()
                     fraction.setFraction(newValue)
@@ -72,8 +78,8 @@ interface Fraction {
                 }
             }
         }
-        fun add(fraction: Fraction.Mutable, adding: Double, observer: FractionObserver? = null): Double {
-            return ValueUtils.addValueInRange(0.0, 1.0, fraction.getFraction(), adding) {
+        fun add(fraction: Mutable, adding: Double, observer: FractionObserver? = null): Double {
+            return ValueUtils.setValueInRange(0.0, 1.0, fraction.getFraction(), adding) {
                 onChange = {oldValue, newValue ->
                     val old = fraction.getFraction()
                     fraction.setFraction(newValue)

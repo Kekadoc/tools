@@ -18,7 +18,6 @@ object ObjectUtils {
         for (obj in objects) Objects.requireNonNull(obj, obj.javaClass.simpleName + " - is null")
     }
 
-
     @JvmStatic
     fun <T> tryCast(obj: Any?): T? {
         return tryCastSafety(obj, false)

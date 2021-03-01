@@ -1,12 +1,12 @@
-package com.kekadoc.tools.content.ui
+package com.kekadoc.tools.ui.content
 
 import com.kekadoc.tools.fraction.Fraction
 import com.kekadoc.tools.fraction.FractionObserver
 import com.kekadoc.tools.value.ValueUtils
 
-interface ContentUI {
+interface Content {
 
-    object Empty : ContentUI {
+    object Empty : Content {
         override fun isShown(): Boolean = false
         override fun show() {}
         override fun hide() {}
@@ -21,9 +21,9 @@ interface ContentUI {
     fun show()
     fun hide()
 
-    open class SimpleInstance : ContentUI {
+    open class SimpleInstance(shown: Boolean = true) : Content {
 
-        private var shown = false
+        private var shown = shown
 
         protected open fun onShown() {}
         protected open fun onHide() {}
@@ -42,18 +42,9 @@ interface ContentUI {
 
     }
 
-    interface Loading : ContentUI, Fraction.Mutable {
+    interface Progress : Content, Fraction.Mutable {
 
-        object Empty : Loading {
-            override fun isShown(): Boolean = false
-            override fun hide() {}
-            override fun show() {}
-            override fun complete() {}
-            override fun getFraction(): Double = 0.0
-            override fun setFraction(fraction: Double) {}
-        }
-
-        interface Observer : ContentUI.Observer, FractionObserver {
+        interface Observer : Content.Observer, FractionObserver {
 
             fun onComplete()
 
@@ -62,6 +53,17 @@ interface ContentUI {
                     oldFraction: Double,
                     newFraction: Double
             )
+
+        }
+
+        object Empty : Progress {
+
+            override fun isShown(): Boolean = false
+            override fun hide() {}
+            override fun show() {}
+            override fun complete() {}
+            override fun getFraction(): Double = 0.0
+            override fun setFraction(fraction: Double) {}
 
         }
 
@@ -75,7 +77,7 @@ interface ContentUI {
         override fun getFraction(): Double
         override fun setFraction(fraction: Double)
 
-        open class SimpleInstance : ContentUI.SimpleInstance(), Loading {
+        open class SimpleInstance(shown: Boolean = true) : Content.SimpleInstance(shown), Progress {
 
             private var progress = 0.0
 
@@ -91,7 +93,7 @@ interface ContentUI {
 
             override fun setFraction(fraction: Double) {
                 if (progress == fraction) return
-                ValueUtils.setValueInRange(0.0, 1.0, fraction, object : ValueUtils.RangeChangeEvents<Double> {
+                ValueUtils.valueInRange(0.0, 1.0, fraction, object : ValueUtils.RangeChangeEvents<Double> {
                     override fun onChange(oldValue: Double, newValue: Double) {
                         progress = newValue
                         onProgress(oldValue, newValue)
@@ -108,9 +110,9 @@ interface ContentUI {
 
     }
 
-    interface Message : ContentUI {
+    interface Message : Content {
 
-        interface Observer : ContentUI.Observer {
+        interface Observer : Content.Observer {
             fun onChangeMessageText(text: CharSequence?)
         }
 
@@ -131,7 +133,7 @@ interface ContentUI {
         fun getText(): CharSequence?
         fun setText(text: CharSequence?)
 
-        open class SimpleInstance(var message: CharSequence? = null) : ContentUI.SimpleInstance(), Message {
+        open class SimpleInstance(var message: CharSequence? = null) : Content.SimpleInstance(), Message {
 
             override fun getText(): CharSequence? = message
             override fun setText(text: CharSequence?) {

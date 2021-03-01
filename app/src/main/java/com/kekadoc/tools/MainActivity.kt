@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val progress = Progress()
 
         Fraction.change(progress, 0.5, object : FractionObserver {
@@ -55,7 +54,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
 
     }
-
 
 }
 

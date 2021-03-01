@@ -12,7 +12,7 @@ class FractionTest {
         private const val TAG: String = "FractionTest-TAG"
     }
 
-    class Progress(private var progress: Double = 0.0) : Fraction.Mutable {
+    class Progress(var progress: Double = 0.0) : Fraction.Mutable {
 
         override fun getFraction(): Double {
             return progress
@@ -33,6 +33,13 @@ class FractionTest {
             }
         })
         assert(progress.getFraction() == desired && value == desired)
+    }
+    @Test
+    fun adjustValue() {
+        val desired = 1.0
+        val progress = Progress()
+        progress.progress = Fraction.adjustValue(1.5)
+        assert(progress.getFraction() == desired)
     }
     @Test
     fun set() {

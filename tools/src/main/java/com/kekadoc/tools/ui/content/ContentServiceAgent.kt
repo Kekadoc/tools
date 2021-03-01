@@ -1,4 +1,4 @@
-package com.kekadoc.tools.content.ui
+package com.kekadoc.tools.ui.content
 
 class ContentServiceAgent(adapter: Adapter? = null) : ContentService {
 
@@ -9,14 +9,14 @@ class ContentServiceAgent(adapter: Adapter? = null) : ContentService {
             value?.invokeOnAttach(this)
         }
 
-    override fun content(code: Int): ContentUI {
-        return adapter?.invokeOnContent(code) ?: ContentUI.Empty
+    override fun content(code: Int): Content {
+        return adapter?.invokeOnContent(code) ?: Content.Empty
     }
-    override fun message(code: Int): ContentUI.Message {
-        return adapter?.invokeOnMessage(code) ?: ContentUI.Message.Empty
+    override fun message(code: Int): Content.Message {
+        return adapter?.invokeOnMessage(code) ?: Content.Message.Empty
     }
-    override fun loading(code: Int): ContentUI.Loading {
-        return adapter?.invokeOnLoading(code) ?: ContentUI.Loading.Empty
+    override fun loading(code: Int): Content.Progress {
+        return adapter?.invokeOnLoading(code) ?: Content.Progress.Empty
     }
     override fun notify(code: Int) {
         adapter?.invokeOnNotify(code)
@@ -29,22 +29,22 @@ class ContentServiceAgent(adapter: Adapter? = null) : ContentService {
 
     abstract class Adapter {
 
-        protected abstract fun onContent(code: Int): ContentUI
-        protected abstract fun onMessage(code: Int): ContentUI.Message
-        protected abstract fun onLoading(code: Int): ContentUI.Loading
+        protected abstract fun onContent(code: Int): Content
+        protected abstract fun onMessage(code: Int): Content.Message
+        protected abstract fun onLoading(code: Int): Content.Progress
         protected abstract fun onNotify(code: Int)
 
         protected open fun onAttach(service: ContentServiceAgent) {}
         protected open fun onDetach(service: ContentServiceAgent) {}
         protected open fun onClear(service: ContentServiceAgent) {}
 
-        internal fun invokeOnContent(code: Int): ContentUI {
+        internal fun invokeOnContent(code: Int): Content {
             return onContent(code)
         }
-        internal fun invokeOnMessage(code: Int): ContentUI.Message {
+        internal fun invokeOnMessage(code: Int): Content.Message {
             return onMessage(code)
         }
-        internal fun invokeOnLoading(code: Int): ContentUI.Loading {
+        internal fun invokeOnLoading(code: Int): Content.Progress {
             return onLoading(code)
         }
         internal fun invokeOnNotify(code: Int) {
