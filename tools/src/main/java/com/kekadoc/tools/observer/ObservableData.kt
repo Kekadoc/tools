@@ -1,6 +1,6 @@
 package com.kekadoc.tools.observer
 
-open class ObservableData<T> (data: T? = null) {
+open class ObservableData<T> (value: T) {
 
     companion object {
 
@@ -15,27 +15,27 @@ open class ObservableData<T> (data: T? = null) {
     }
 
     fun interface Observer<V> {
-        fun onChange(oldData: V?, newData: V?)
+        fun onChange(oldData: V, newData: V)
     }
     interface Observing<V>: com.kekadoc.tools.observer.Observing {
         override fun remove()
-        fun getData(): V?
+        fun getData(): V
     }
 
     private var observers: MutableCollection<Observer<T>>? = null
-    private var data: T? = data
+    private var data: T = value
         set(data) {
-            val old: T? = field
+            val old: T = field
             field = data
             onChange(old, data)
             observers?.forEach { it.onChange(old, data) }
         }
 
-    fun setValue(value: T?) {
+    fun setValue(value: T) {
         if (this.data == value) return
         data = value
     }
-    fun updateValue(value: T?) {
+    fun updateValue(value: T) {
         this.data = value
     }
     fun notifyValue() {
@@ -67,13 +67,13 @@ open class ObservableData<T> (data: T? = null) {
         return observers?.remove(observer) ?: false
     }
 
-    protected open fun onChange(oldData: T?, newData: T?) {}
+    protected open fun onChange(oldData: T, newData: T) {}
 
     protected open fun onActive() {}
     protected open fun onInactive() {}
 
     private abstract inner class ObservingImpl : Observing<T> {
-        override fun getData(): T? = data
+        override fun getData(): T = data
     }
 
 }

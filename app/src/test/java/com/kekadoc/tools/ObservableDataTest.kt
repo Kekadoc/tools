@@ -20,7 +20,7 @@ class ObservableDataTest {
         var onObservingInactive = false
 
         val codeData = object : ObservableData<Int>(expectedOldCode) {
-            override fun onChange(oldData: Int?, newData: Int?) {
+            override fun onChange(oldData: Int, newData: Int) {
                 println(oldData)
                 assert(oldData == expectedOldCode)
                 assert(newData == expectedNewCode)
@@ -83,7 +83,7 @@ class ObservableDataTest {
     fun updateValue() {
         var count = 0
         val codeData = object : ObservableData<Int>(expectedOldCode) {
-            override fun onChange(oldData: Int?, newData: Int?) {
+            override fun onChange(oldData: Int, newData: Int) {
                 super.onChange(oldData, newData)
                 count++
             }
@@ -98,7 +98,7 @@ class ObservableDataTest {
     fun setValue() {
         var changed = false
         val codeData = object : ObservableData<Int>(expectedOldCode) {
-            override fun onChange(oldData: Int?, newData: Int?) {
+            override fun onChange(oldData: Int, newData: Int) {
                 super.onChange(oldData, newData)
                 assert(!changed)
                 changed = true
@@ -122,7 +122,7 @@ class ObservableDataTest {
         val observable = ObservableData(5)
         val observableSecond = ObservableData(0)
         observableSecond.observe {_, value ->
-            secondCall = value!!
+            secondCall = value
             called = true
         }
         observable.observe(observableSecond)
