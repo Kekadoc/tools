@@ -1,8 +1,6 @@
 package com.kekadoc.tools.observer
 
-import java.util.*
-
-abstract class ObservableData<Data> {
+open class ObservableData<T> (data: T? = null) {
 
     companion object {
         @JvmStatic
@@ -15,38 +13,68 @@ abstract class ObservableData<Data> {
         }
     }
 
-    interface Observer<Data> {
-        fun onChange(oldData: Data?, newData: Data?)
+    fun interface Observer<V> {
+        fun onChange(oldData: V?, newData: V?)
     }
-    interface Observing<Data>: com.kekadoc.tools.observer.Observing {
+    interface Observing<V>: com.kekadoc.tools.observer.Observing {
         override fun remove()
-        fun getData(): Data?
+        fun getData(): V?
     }
 
-    private var observers: MutableCollection<Observer<Data>>? = null
-    var data: Data? = null
+    private var observers: MutableCollection<Observer<T>>? = null
+    private var data: T? = data
         set(data) {
-            if (this.data === data) return
-            val old: Data? = field
+            val old: T? = field
             field = data
+
+            println("Data: old: $old | new: $data  ${observers?.size}")
             onChange(old, data)
-            if (observers != null) for (observer in observers!!) observer.onChange(old, data)
+            observers?.forEach { it.onChange(old, data) }
         }
 
-    fun observe(observer: Observer<Data>): Observing<Data> {
-        if (observers == null) observers = LinkedHashSet()
+    fun setValue(value: T?) {
+        if (this.data == value) return
+        data = value
+    }
+    fun updateValue(value: T?) {
+        this.data = value
+    }
+    fun notifyValue() {
+        this.data = this.data
+    }
+
+    fun isActive(): Boolean {
+        return observers != null && observers!!.isNotEmpty()
+    }
+
+    fun observe(observer: Observer<T>): Observing<T> {
+        if (observers == null) observers = hashSetOf()
+        val active = isActive()
         observers!!.add(observer)
+        if (!active && isActive()) onActive()
+        observer.onChange(this.data, this.data)
         return object : ObservingImpl() {
             override fun remove() {
-                observers?.remove(observer)
+                observers?.let {
+                    val a = isActive()
+                    it.remove(observer)
+                    if (a && !isActive()) onInactive()
+                }
             }
         }
     }
 
-    protected open fun onChange(oldTarget: Data?, newTarget: Data?) {}
+    fun removeObserver(observer: Observer<T>): Boolean {
+        return observers?.remove(observer) ?: false
+    }
 
-    private abstract inner class ObservingImpl : Observing<Data> {
-        override fun getData(): Data? = data
+    protected open fun onChange(oldData: T?, newData: T?) {}
+
+    protected open fun onActive() {}
+    protected open fun onInactive() {}
+
+    private abstract inner class ObservingImpl : Observing<T> {
+        override fun getData(): T? = data
     }
 
 }
