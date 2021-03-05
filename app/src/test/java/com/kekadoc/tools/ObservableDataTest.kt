@@ -1,6 +1,8 @@
 package com.kekadoc.tools
 
 import com.kekadoc.tools.observer.ObservableData
+import com.kekadoc.tools.observer.ObservableData.Companion.observe
+import com.kekadoc.tools.observer.ObservableData.Companion.toObservableData
 import org.junit.Test
 
 class ObservableDataTest {
@@ -104,6 +106,28 @@ class ObservableDataTest {
         }
         codeData.setValue(expectedNewCode)
         codeData.setValue(expectedNewCode)
+    }
+    @Test
+    fun toObservable() {
+        val data = "Data"
+        val observable = data.toObservableData()
+        observable.observe {_, value ->
+            assert(value == data)
+        }
+    }
+    @Test
+    fun observeObservable() {
+        var called = false
+        var secondCall = 0
+        val observable = ObservableData(5)
+        val observableSecond = ObservableData(0)
+        observableSecond.observe {_, value ->
+            secondCall = value!!
+            called = true
+        }
+        observable.observe(observableSecond)
+        observable.setValue(expectedNewCode)
+        assert(called && secondCall == expectedNewCode)
     }
 
 }
