@@ -3,14 +3,15 @@ package com.kekadoc.tools.observer
 open class ObservableData<T> (data: T? = null) {
 
     companion object {
-        @JvmStatic
-        fun <Data> attachSuperData(data: ObservableData<Data>, superData: ObservableData<Data>) {
-            superData.observe(object : Observer<Data> {
-                override fun onChange(oldData: Data?, newData: Data?) {
-                    data.data = newData
-                }
-            })
+
+        fun <T> T.toObservableData(): ObservableData<T> = ObservableData(this)
+
+        fun <T> ObservableData<T>.observe(observable: ObservableData<T>) {
+            observe {_, value ->
+                observable.updateValue(value)
+            }
         }
+
     }
 
     fun interface Observer<V> {
@@ -26,8 +27,6 @@ open class ObservableData<T> (data: T? = null) {
         set(data) {
             val old: T? = field
             field = data
-
-            println("Data: old: $old | new: $data  ${observers?.size}")
             onChange(old, data)
             observers?.forEach { it.onChange(old, data) }
         }
