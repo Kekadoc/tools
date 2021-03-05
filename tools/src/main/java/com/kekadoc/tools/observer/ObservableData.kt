@@ -31,6 +31,9 @@ open class ObservableData<T> (value: T) {
             observers?.forEach { it.onChange(old, data) }
         }
 
+    fun getValue(): T {
+        return data
+    }
     fun setValue(value: T) {
         if (this.data == value) return
         data = value
