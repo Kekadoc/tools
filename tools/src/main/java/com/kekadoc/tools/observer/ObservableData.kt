@@ -67,7 +67,7 @@ open class ObservableData<T> (value: T) {
         return observers?.remove(observer) ?: false
     }
 
-    protected open fun onChange(oldData: T, newData: T) {}
+    protected open fun onChange(oldValue: T, newValue: T) {}
 
     protected open fun onActive() {}
     protected open fun onInactive() {}
