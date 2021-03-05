@@ -1,12 +1,12 @@
 package com.kekadoc.tools.observer
 
-open class ObservableData<T> (value: T) {
+open class Observable<T> (value: T) {
 
     companion object {
 
-        fun <T> T.toObservableData(): ObservableData<T> = ObservableData(this)
+        fun <T> T.toObservable(): Observable<T> = Observable(this)
 
-        fun <T> ObservableData<T>.observe(observable: ObservableData<T>) {
+        fun <T> Observable<T>.observe(observable: Observable<T>) {
             observe {_, value ->
                 observable.updateValue(value)
             }
@@ -34,15 +34,16 @@ open class ObservableData<T> (value: T) {
     fun getValue(): T {
         return data
     }
-    fun setValue(value: T) {
+
+    internal open fun notifyValue() {
+        this.data = this.data
+    }
+    internal open fun setValue(value: T) {
         if (this.data == value) return
         data = value
     }
-    fun updateValue(value: T) {
+    internal open fun updateValue(value: T) {
         this.data = value
-    }
-    fun notifyValue() {
-        this.data = this.data
     }
 
     fun isActive(): Boolean {
