@@ -1,9 +1,10 @@
-package com.kekadoc.tools.observer
+package com.kekadoc.tools.observable
 
+import com.kekadoc.tools.ifTrue
 import com.kekadoc.tools.storage.collections.CollectionUtils
 import java.util.*
 
-abstract class ObserverManagement<Observer> {
+abstract class ObservationManager<Observer> {
 
     companion object {
         protected const val REC_CAPACITY = 3
@@ -17,18 +18,28 @@ abstract class ObserverManagement<Observer> {
     open fun addObserver(observer: Observer): Observing {
         if (observers == null) observers = initialize()
         if (observers!!.contains(observer)) return Observing.EMPTY
-        observers!!.add(observer)
-        return onCreateObserving(observer)
+        return if (!observers!!.add(observer)) Observing.EMPTY
+        else {
+            onObserverAttach(observer)
+            onCreateObserving(observer)
+        }
     }
     open fun removeObserver(observer: Observer?) {
-        observers?.remove(observer)
+        if (observer == null) return
+        observers?.remove(observer)?.ifTrue { onObserverDetach(observer) }
     }
 
     fun size(): Int {
         return if (observers == null) 0 else observers!!.size
     }
+    fun clear() {
+        observers?.forEach { removeObserver(it) }
+    }
 
-    protected fun foreach(iterator: (it: Observer) -> Unit) {
+    protected open fun onObserverAttach(observer: Observer) {}
+    protected open fun onObserverDetach(observer: Observer) {}
+
+    protected fun forEach(iterator: (it: Observer) -> Unit) {
         getIterationObservers().forEach { iterator.invoke(it) }
     }
 
@@ -48,15 +59,8 @@ abstract class ObserverManagement<Observer> {
         return CollectionUtils.copy(observers)
     }
 
-    protected open fun getSafetyListeners(): Collection<Observer> {
-        return CollectionUtils.nonNull(observers)
-    }
     protected open fun initialize(): MutableCollection<Observer> {
         return defaultCollection()
-    }
-
-    abstract class Behavior<Observer> : ObserverManagement<Observer>() {
-        protected abstract fun callLastEvent(observer: Observer)
     }
 
 }

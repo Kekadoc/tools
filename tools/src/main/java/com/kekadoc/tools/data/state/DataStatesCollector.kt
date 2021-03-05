@@ -1,6 +1,6 @@
 package com.kekadoc.tools.data.state
 
-import com.kekadoc.tools.observer.Observing
+import com.kekadoc.tools.observable.Observing
 
 fun <Data, State, Keeper: StateKeeper<Data, State>>
         dataStatesCollector(keeper: DataStatesCollector<Data, State, Keeper>.() -> Keeper):

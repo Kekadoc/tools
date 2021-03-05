@@ -1,6 +1,6 @@
 package com.kekadoc.tools.fraction
 
-import com.kekadoc.tools.observer.Observing
+import com.kekadoc.tools.observable.Observing
 
 open class FractionObject(private var fraction: Double = 0.0) : ObservableFraction, Fraction.Mutable {
 

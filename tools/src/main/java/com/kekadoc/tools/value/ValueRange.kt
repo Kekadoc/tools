@@ -3,8 +3,8 @@ package com.kekadoc.tools.value
 import com.kekadoc.tools.fraction.Fraction
 import com.kekadoc.tools.fraction.FractionObserver
 import com.kekadoc.tools.fraction.ObservableFraction
-import com.kekadoc.tools.observer.ObserverManagement
-import com.kekadoc.tools.observer.Observing
+import com.kekadoc.tools.observable.ObservationManager
+import com.kekadoc.tools.observable.Observing
 
 object ValueRangeUtils {
 
@@ -63,7 +63,7 @@ interface ValueRangeDouble : ValueDouble, Fraction {
             fun onValueMin(observable: Observable, min: Double) {}
             fun onValueOver(observable: Observable, over: Double) {}
 
-            class Management : ObserverManagement<Observer>(), Observer {
+            class Manager : ObservationManager<Observer>(), Observer {
                 override fun onValueChange(observable: Observable, min: Double, max: Double, oldValue: Double, newValue: Double) {
                     for (observer in getIterationObservers())
                         observer.onValueChange(observable, min, max, oldValue, newValue)
@@ -116,7 +116,7 @@ interface ValueRangeFloat : ValueFloat, Fraction {
             fun onValueMin(observable: Observable, min: Float) {}
             fun onValueOver(observable: Observable, over: Float) {}
 
-            class Management : ObserverManagement<Observer>(), Observer {
+            class Manager : ObservationManager<Observer>(), Observer {
                 override fun onValueChange(observable: Observable, min: Float, max: Float, oldValue: Float, newValue: Float) {
                     for (observer in getIterationObservers())
                         observer.onValueChange(observable, min, max, oldValue, newValue)
@@ -169,7 +169,7 @@ interface ValueRangeLong : ValueLong, Fraction {
             fun onValueMin(observable: Observable, min: Long) {}
             fun onValueOver(observable: Observable, over: Long) {}
 
-            class Management : ObserverManagement<Observer>(), Observer {
+            class Manager : ObservationManager<Observer>(), Observer {
                 override fun onValueChange(observable: Observable, min: Long, max: Long, oldValue: Long, newValue: Long) {
                     for (observer in getIterationObservers())
                         observer.onValueChange(observable, min, max, oldValue, newValue)
@@ -222,7 +222,7 @@ interface ValueRangeInt : ValueInt, Fraction {
             fun onValueMin(observable: Observable, min: Int) {}
             fun onValueOver(observable: Observable, over: Int) {}
 
-            class Management : ObserverManagement<Observer>(), Observer {
+            class Manager : ObservationManager<Observer>(), Observer {
                 override fun onValueChange(observable: Observable, min: Int, max: Int, oldValue: Int, newValue: Int) {
                     for (observer in getIterationObservers())
                         observer.onValueChange(observable, min, max, oldValue, newValue)
@@ -265,7 +265,7 @@ open class ValueRangeDoubleImpl(private var value: Double,
                                 private var min: Double,
                                 private var max: Double) : ValueRangeDouble.Observable, ObservableFraction {
 
-    private var valueObserver = ValueRangeDouble.Observable.Observer.Management()
+    private var valueObserver = ValueRangeDouble.Observable.Observer.Manager()
     private var fractionObserver: ObservableFraction.Manager = ObservableFraction.Manager()
 
     override fun addFractionObserver(observer: FractionObserver): Observing {
@@ -304,7 +304,7 @@ open class ValueRangeFloatImpl(private var value: Float,
                                private var min: Float,
                                private var max: Float) : ValueRangeFloat.Observable, ObservableFraction {
 
-    private var valueObserver = ValueRangeFloat.Observable.Observer.Management()
+    private var valueObserver = ValueRangeFloat.Observable.Observer.Manager()
     private var fractionObserver: ObservableFraction.Manager = ObservableFraction.Manager()
 
     override fun addFractionObserver(observer: FractionObserver): Observing {
@@ -343,7 +343,7 @@ open class ValueRangeLongImpl(private var value: Long,
                                private var min: Long,
                                private var max: Long) : ValueRangeLong.Observable, ObservableFraction {
 
-    private var valueObserver = ValueRangeLong.Observable.Observer.Management()
+    private var valueObserver = ValueRangeLong.Observable.Observer.Manager()
     private var fractionObserver: ObservableFraction.Manager = ObservableFraction.Manager()
 
     override fun addFractionObserver(observer: FractionObserver): Observing {
@@ -382,7 +382,7 @@ open class ValueRangeIntImpl(private var value: Int,
                                private var min: Int,
                                private var max: Int) : ValueRangeInt.Observable, ObservableFraction {
 
-    private var valueObserver = ValueRangeInt.Observable.Observer.Management()
+    private var valueObserver = ValueRangeInt.Observable.Observer.Manager()
     private var fractionObserver: ObservableFraction.Manager = ObservableFraction.Manager()
 
     override fun addFractionObserver(observer: FractionObserver): Observing {

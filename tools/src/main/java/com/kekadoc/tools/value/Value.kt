@@ -1,7 +1,7 @@
 package com.kekadoc.tools.value
 
-import com.kekadoc.tools.observer.ObserverManagement
-import com.kekadoc.tools.observer.Observing
+import com.kekadoc.tools.observable.ObservationManager
+import com.kekadoc.tools.observable.Observing
 
 interface ValueLong {
 
@@ -46,7 +46,7 @@ interface ObservableValueDouble : ValueDouble {
 
         fun onValueChange(observable: ObservableValueDouble?, oldValue: Double, newValue: Double)
 
-        class Management : ObserverManagement<Observer>(), Observer {
+        class Manager : ObservationManager<Observer>(), Observer {
             override fun onValueChange(observable: ObservableValueDouble?, oldValue: Double, newValue: Double) {
                 for (observer in getIterationObservers()) observer.onValueChange(observable, oldValue, newValue)
             }
@@ -63,7 +63,7 @@ interface ObservableValueFloat : ValueFloat {
 
         fun onValueChange(observable: ObservableValueFloat?, oldValue: Float, newValue: Float)
 
-        class Management : ObserverManagement<Observer>(), Observer {
+        class Manager : ObservationManager<Observer>(), Observer {
             override fun onValueChange(observable: ObservableValueFloat?, oldValue: Float, newValue: Float) {
                 for (observer in getIterationObservers()) observer.onValueChange(observable, oldValue, newValue)
             }
@@ -80,7 +80,7 @@ interface ObservableValueLong : ValueLong {
 
         fun onValueChange(fraction: ObservableValueLong, oldValue: Long, newValue: Long)
 
-        class Management : ObserverManagement<Observer>(), Observer {
+        class Manager : ObservationManager<Observer>(), Observer {
             override fun onValueChange(fraction: ObservableValueLong, oldValue: Long, newValue: Long) {
                 for (observer in getIterationObservers())
                     observer.onValueChange(fraction, oldValue, newValue)
@@ -98,7 +98,7 @@ interface ObservableValueInt : ValueInt {
 
         fun onValueChange(fraction: ObservableValueInt, oldValue: Int, newValue: Int)
 
-        class Management : ObserverManagement<Observer>(), Observer {
+        class Manager : ObservationManager<Observer>(), Observer {
             override fun onValueChange(fraction: ObservableValueInt, oldValue: Int, newValue: Int) {
                 for (observer in getIterationObservers())
                     observer.onValueChange(fraction, oldValue, newValue)

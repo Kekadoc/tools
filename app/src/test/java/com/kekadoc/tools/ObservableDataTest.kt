@@ -1,10 +1,12 @@
 package com.kekadoc.tools
 
-import com.kekadoc.tools.observer.Mutable
-import com.kekadoc.tools.observer.Mutable.Companion.toMutable
-import com.kekadoc.tools.observer.Observable
-import com.kekadoc.tools.observer.Observable.Companion.observe
-import com.kekadoc.tools.observer.Observable.Companion.toObservable
+import com.kekadoc.tools.observable.MutableData
+import com.kekadoc.tools.observable.MutableData.Companion.toMutable
+import com.kekadoc.tools.observable.Observable
+import com.kekadoc.tools.observable.ObservableData
+import com.kekadoc.tools.observable.ObservableData.Companion.observe
+import com.kekadoc.tools.observable.ObservableData.Companion.toObservable
+import com.kekadoc.tools.observable.observer
 import org.junit.Test
 
 class ObservableDataTest {
@@ -13,19 +15,19 @@ class ObservableDataTest {
         private const val TAG: String = "ObservableDataTest-TAG"
     }
 
+    private val dataCode = MutableData(0)
+    val code: ObservableData<Int>
+        get() = dataCode
+
     var expectedNewCode = -5
     var expectedOldCode = 5
 
     @Test
     fun case() {
-        val data = "0"
-        val observable = data.toObservable()
-        val mutable = data.toMutable()
-        mutable.observe { _, value -> println(value) }
-        mutable.setValue("1")
-        mutable.setValue("1")
-        mutable.updateValue("1")
-        mutable.notifyValue()
+        val observing = code.observe(observer { println(it) })
+        dataCode.setValue(5)
+        observing.remove()
+        dataCode.setValue(10)
     }
 
     @Test
@@ -33,7 +35,7 @@ class ObservableDataTest {
         var onObservingActive = false
         var onObservingInactive = false
 
-        val codeData = object : Mutable<Int>(expectedOldCode) {
+        val codeData = object : MutableData<Int>(expectedOldCode) {
             override fun onChange(oldValue: Int, newValue: Int) {
                 println(oldValue)
                 assert(oldValue == expectedOldCode)
@@ -48,9 +50,7 @@ class ObservableDataTest {
 
         }
 
-        codeData.observe {_,_ ->
-
-        }.remove()
+        codeData.observe(observer {  }).remove()
 
         codeData.setValue(expectedNewCode)
 
@@ -58,8 +58,8 @@ class ObservableDataTest {
     }
     @Test
     fun observe() {
-        val codeData = Mutable(expectedOldCode)
-        val obs = codeData.observe {old, new ->
+        val codeData = MutableData(expectedOldCode)
+        val obs = codeData.observe {_, old, new ->
             assert(old == expectedOldCode) {
                 "old: $old != new: $expectedOldCode"
             }
@@ -69,10 +69,9 @@ class ObservableDataTest {
         }
         obs.remove()
         var first = true
-        codeData.observe {old, new ->
+        codeData.observe {_, old, new ->
             if (first) {
                 first = false
-                println("old: $old | new: $new")
                 assert(old == expectedOldCode) {
                     "old: $old != expectedOldCode: $expectedOldCode"
                 }
@@ -80,7 +79,6 @@ class ObservableDataTest {
                     "new: $new != expectedOldCode: $expectedOldCode"
                 }
             } else {
-                println("old: $old | new: $new")
                 assert(old == expectedOldCode) {
                     "old: $old != expectedOldCode: $expectedOldCode"
                 }
@@ -95,7 +93,7 @@ class ObservableDataTest {
     @Test
     fun updateValue() {
         var count = 0
-        val codeData = object : Mutable<Int>(expectedOldCode) {
+        val codeData = object : MutableData<Int>(expectedOldCode) {
             override fun onChange(oldValue: Int, newValue: Int) {
                 super.onChange(oldValue, newValue)
                 count++
@@ -110,7 +108,7 @@ class ObservableDataTest {
     @Test
     fun setValue() {
         var changed = false
-        val codeData = object : Mutable<Int>(expectedOldCode) {
+        val codeData = object : MutableData<Int>(expectedOldCode) {
             override fun onChange(oldValue: Int, newValue: Int) {
                 super.onChange(oldValue, newValue)
                 assert(!changed)
@@ -124,20 +122,18 @@ class ObservableDataTest {
     fun toObservable() {
         val data = "Data"
         val observable = data.toObservable()
-        observable.observe {_, value ->
-            assert(value == data)
-        }
+        observable.observe(observer { assert(it == data) })
     }
     @Test
     fun observeObservable() {
         var called = false
         var secondCall = 0
-        val observable = Mutable(5)
-        val observableSecond = Mutable(0)
-        observableSecond.observe {_, value ->
-            secondCall = value
+        val observable = MutableData(5)
+        val observableSecond = MutableData(0)
+        observableSecond.observe(observer {
+            secondCall = it
             called = true
-        }
+        })
         observable.observe(observableSecond)
         observable.setValue(expectedNewCode)
         assert(called && secondCall == expectedNewCode)
