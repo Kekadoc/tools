@@ -54,12 +54,11 @@ abstract class DataStatesCollector<Data, State, Keeper : StateKeeper<Data, State
         var keeper = getStateKeeper(data)
 
         if (keeper == null) {
-            keeper = onCreateStateKeeper(data, state).apply {
-                observe { oldState, newState ->
-                    onDataStateChange(this, oldState, newState)
-                }
-            }
+            keeper = onCreateStateKeeper(data, state)
             this.states[data] = keeper
+            keeper.observe { oldState, newState ->
+                onDataStateChange(keeper, oldState, newState)
+            }
             onAdded(keeper)
         }
         else keeper.state = state
@@ -133,6 +132,11 @@ interface StateKeeper<Data, State> {
             state = initState
             observers?.clear()
         }
+
+        override fun toString(): String {
+            return "Default(data=$data, state=$state)"
+        }
+
 
     }
 
