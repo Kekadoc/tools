@@ -4,7 +4,7 @@ interface Observable<T> {
 
     fun getValue(): T
 
-    fun observe(observer: Observer<T>): Observing
+    fun addObserve(observer: Observer<T>): Observing
     fun removeObserver(observer: Observer<T>?): Boolean
 
 }

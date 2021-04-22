@@ -8,7 +8,7 @@ open class ObservableData<T> (value: T): Observable<T> {
         fun <T> T.toObservable(): ObservableData<T> = ObservableData(this)
         @JvmStatic
         fun <T> ObservableData<T>.observe(observable: ObservableData<T>) {
-            observe(observer { observable.updateValue(it) })
+            addObserve(observer { observable.updateValue(it) })
         }
 
     }
@@ -38,10 +38,17 @@ open class ObservableData<T> (value: T): Observable<T> {
         return observers != null && observers!!.isNotEmpty()
     }
 
+    fun removeAllObservers(): Int {
+        val size = this.observers?.size ?: 0
+        this.observers?.clear()
+        if (size > 0) onInactive()
+        return size
+    }
+
     override fun getValue(): T {
         return data
     }
-    override fun observe(observer: Observer<T>): ObservingData<T> {
+    override fun addObserve(observer: Observer<T>): ObservingData<T> {
         if (observers == null) observers = hashSetOf()
         val active = isActive()
         observers!!.add(observer)
@@ -49,16 +56,15 @@ open class ObservableData<T> (value: T): Observable<T> {
         observer.onChange(this, this.data, this.data)
         return object : ObservingImpl() {
             override fun remove() {
-                observers?.let {
-                    val a = isActive()
-                    it.remove(observer)
-                    if (a && !isActive()) onInactive()
-                }
+                removeObserver(observer)
             }
         }
     }
     override fun removeObserver(observer: Observer<T>?): Boolean {
-        return observers?.remove(observer) ?: false
+        val a = isActive()
+        val removed = observers?.remove(observer)
+        if (a && !isActive()) onInactive()
+        return removed ?: false
     }
 
     protected open fun onChange(oldValue: T, newValue: T) {}

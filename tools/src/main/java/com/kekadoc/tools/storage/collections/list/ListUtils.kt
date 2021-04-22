@@ -4,6 +4,20 @@ import com.kekadoc.tools.storage.collections.CollectionUtils
 import java.lang.RuntimeException
 import kotlin.collections.ArrayList
 
+fun <T> MutableList<T>.add(item: T, comparator: Comparator<T>) {
+    var addIndex = -1
+    for (index in 0 until size) {
+        val t = get(index)
+        val sortResult = comparator.compare(t, item)
+        if (sortResult > 0) {
+            addIndex = index
+            break
+        }
+    }
+    if (addIndex < 0) add(item)
+    else add(addIndex, item)
+}
+
 object ListUtils {
 
     @JvmStatic
