@@ -8,7 +8,7 @@ open class ObservableData<T> (value: T): Observable<T> {
         fun <T> T.toObservable(): ObservableData<T> = ObservableData(this)
         @JvmStatic
         fun <T> ObservableData<T>.observe(observable: ObservableData<T>) {
-            addObserve(observer { observable.updateValue(it) })
+            addObserver(observer { observable.updateValue(it) })
         }
 
     }
@@ -48,7 +48,7 @@ open class ObservableData<T> (value: T): Observable<T> {
     override fun getValue(): T {
         return data
     }
-    override fun addObserve(observer: Observer<T>): ObservingData<T> {
+    override fun addObserver(observer: Observer<T>): ObservingData<T> {
         if (observers == null) observers = hashSetOf()
         val active = isActive()
         observers!!.add(observer)

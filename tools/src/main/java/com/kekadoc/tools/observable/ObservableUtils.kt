@@ -5,5 +5,5 @@ inline fun <T> observer(crossinline action: (value: T) -> Unit): Observer<T> {
 }
 
 inline fun <T> ObservableData<T>.observe(crossinline action: (value: T) -> Unit): Observing {
-    return addObserve(observer(action))
+    return addObserver(observer(action))
 }

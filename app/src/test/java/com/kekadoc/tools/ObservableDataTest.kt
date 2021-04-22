@@ -20,7 +20,7 @@ class ObservableDataTest {
 
     @Test
     fun case() {
-        val observing = code.addObserve(observer { println(it) })
+        val observing = code.addObserver(observer { println(it) })
         dataCode.setValue(5)
         observing.remove()
         dataCode.setValue(10)
@@ -46,7 +46,7 @@ class ObservableDataTest {
 
         }
 
-        codeData.addObserve(observer {  }).remove()
+        codeData.addObserver(observer {  }).remove()
 
         codeData.setValue(expectedNewCode)
 
@@ -55,7 +55,7 @@ class ObservableDataTest {
     @Test
     fun observe() {
         val codeData = MutableData(expectedOldCode)
-        val obs = codeData.addObserve { _, old, new ->
+        val obs = codeData.addObserver { _, old, new ->
             assert(old == expectedOldCode) {
                 "old: $old != new: $expectedOldCode"
             }
@@ -65,7 +65,7 @@ class ObservableDataTest {
         }
         obs.remove()
         var first = true
-        codeData.addObserve { _, old, new ->
+        codeData.addObserver { _, old, new ->
             if (first) {
                 first = false
                 assert(old == expectedOldCode) {
@@ -118,7 +118,7 @@ class ObservableDataTest {
     fun toObservable() {
         val data = "Data"
         val observable = data.toObservable()
-        observable.addObserve(observer { assert(it == data) })
+        observable.addObserver(observer { assert(it == data) })
     }
     @Test
     fun observeObservable() {
@@ -126,7 +126,7 @@ class ObservableDataTest {
         var secondCall = 0
         val observable = MutableData(5)
         val observableSecond = MutableData(0)
-        observableSecond.addObserve(observer {
+        observableSecond.addObserver(observer {
             secondCall = it
             called = true
         })
