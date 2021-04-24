@@ -3,10 +3,12 @@ package com.kekadoc.tools
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.kekadoc.tools.data.ListDataProvider
 import com.kekadoc.tools.data.state.StateKeeper
 import com.kekadoc.tools.data.state.dataStatesCollector
 import com.kekadoc.tools.fraction.Fraction
 import com.kekadoc.tools.fraction.FractionObserver
+import com.kekadoc.tools.storage.collections.list.ClusteredListOfListDataProvider
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
@@ -30,6 +32,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val progress = Progress()
+
+        val clusteredList = ClusteredListOfListDataProvider<ListDataProvider<Int>, Int>()
+        //clusteredList.clusters.add()
 
         Fraction.change(progress, 0.5, object : FractionObserver {
             override fun onFractionChange(fraction: Fraction, oldFraction: Double, newFraction: Double) {

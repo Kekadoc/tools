@@ -3,6 +3,9 @@ package com.kekadoc.tools
 import com.kekadoc.tools.observable.*
 import com.kekadoc.tools.observable.ObservableData.Companion.observe
 import com.kekadoc.tools.observable.ObservableData.Companion.toObservable
+import com.kekadoc.tools.observable.SingleMutableData.Companion.toSingleMutable
+import com.kekadoc.tools.observable.SingleObservableData.Companion.toSingleObservable
+import com.kekadoc.tools.observable.observer
 import org.junit.Test
 
 class ObservableDataTest {
@@ -20,7 +23,7 @@ class ObservableDataTest {
 
     @Test
     fun case() {
-        val observing = code.addObserver(observer { println(it) })
+        val observing = code.observe(observer { println(it) })
         dataCode.setValue(5)
         observing.remove()
         dataCode.setValue(10)
@@ -46,7 +49,7 @@ class ObservableDataTest {
 
         }
 
-        codeData.addObserver(observer {  }).remove()
+        codeData.observe(observer {  }).remove()
 
         codeData.setValue(expectedNewCode)
 
@@ -55,7 +58,7 @@ class ObservableDataTest {
     @Test
     fun observe() {
         val codeData = MutableData(expectedOldCode)
-        val obs = codeData.addObserver { _, old, new ->
+        val obs = codeData.observe { _, old, new ->
             assert(old == expectedOldCode) {
                 "old: $old != new: $expectedOldCode"
             }
@@ -65,7 +68,7 @@ class ObservableDataTest {
         }
         obs.remove()
         var first = true
-        codeData.addObserver { _, old, new ->
+        codeData.observe { _, old, new ->
             if (first) {
                 first = false
                 assert(old == expectedOldCode) {
@@ -118,7 +121,7 @@ class ObservableDataTest {
     fun toObservable() {
         val data = "Data"
         val observable = data.toObservable()
-        observable.addObserver(observer { assert(it == data) })
+        observable.observe(observer { assert(it == data) })
     }
     @Test
     fun observeObservable() {
@@ -126,7 +129,7 @@ class ObservableDataTest {
         var secondCall = 0
         val observable = MutableData(5)
         val observableSecond = MutableData(0)
-        observableSecond.addObserver(observer {
+        observableSecond.observe(observer {
             secondCall = it
             called = true
         })
@@ -138,7 +141,7 @@ class ObservableDataTest {
     fun removeObserver() {
         var value = 0
         val observable = MutableData(5)
-        val observing = observable.observe {
+        val observing = observable.onEach {
             value = it
         }
         observable.setValue(expectedNewCode)
@@ -151,16 +154,35 @@ class ObservableDataTest {
     fun removeAllObservers() {
         var value = 0
         val observable = MutableData(5)
-        val observing0 = observable.observe {
+        val observing0 = observable.onEach {
             value = it
         }
-        val observing1 = observable.observe {
+        val observing1 = observable.onEach {
             value = it
         }
         observable.setValue(expectedNewCode)
         val removed = observable.removeAllObservers()
         observable.setValue(expectedNewCode * 2)
         assert(value == expectedNewCode && removed == 2)
+    }
+
+    @Test
+    fun singleObservable() {
+        var value = 5
+        val observable = value.toSingleMutable()
+        observable.onEach {
+            value = it
+            println("1 $value")
+        }   // 5
+        observable.setValue(2)          // 2
+        observable.onEach {
+            value *= it
+            println("2 $value")
+        }                               // 4
+        observable.setValue(5)          // 4 * 5
+        assert(value == 20) {
+            "Fail value: $value"
+        }
     }
 
 }
